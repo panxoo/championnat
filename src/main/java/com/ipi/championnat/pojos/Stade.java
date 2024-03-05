@@ -1,2 +1,3 @@
-package com.ipi.championnat.pojos;public class Stade {
+package com.ipi.championnat.pojos;
+public class Stade {
 }

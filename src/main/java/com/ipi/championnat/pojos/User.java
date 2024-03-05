@@ -1,2 +1,4 @@
-package com.ipi.championnat.pojos;public class User {
+package com.ipi.championnat.pojos;
+
+public class User {
 }
