@@ -20,21 +20,20 @@ public class UserServiceImpl implements UserService {
         return userDao.save(user);
     }
 
-    ;
 
     @Override
     public User getUser(Long idUser) {
         return userDao.findById(idUser).orElse(null);
     }
 
-    ;
+
 
     @Override
     public List<User> getUsers() {
         return userDao.findAll();
     }
 
-    ;
+
 
 
 }
