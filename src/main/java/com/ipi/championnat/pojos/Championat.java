@@ -27,7 +27,9 @@ public class Championat {
     @ManyToMany(mappedBy = "championates")
     private List<Equipe> equipes;
 
-    public Championat(){}
+    public Championat() {
+    }
+
     public Championat(String nom, String logo, Date dateDebut, Date dateFin, int pointGagne, int pointPerdu, int pointNul, String typeClassement, Pays pays) {
         this.nom = nom;
         this.logo = logo;
