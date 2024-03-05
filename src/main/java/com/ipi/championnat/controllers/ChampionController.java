@@ -2,6 +2,7 @@ package com.ipi.championnat.controllers;
 
 import com.ipi.championnat.pojos.Equipe;
 import com.ipi.championnat.pojos.User;
+import com.ipi.championnat.services.EquipeService;
 import com.ipi.championnat.services.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Controller
 public class ChampionController {
     private UserService userService;
+    private EquipeService equipeService;
 
     public ChampionController(UserService userService) {
         super();
