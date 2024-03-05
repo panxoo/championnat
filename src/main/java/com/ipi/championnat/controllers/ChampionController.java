@@ -16,27 +16,25 @@ public class ChampionController {
     }
 
     @GetMapping(path = {"/", "/index"})
-    public String index(){
+    public String index() {
         return "index";
     }
 
     @PostConstruct
     private void init() {
         if (userService.getUsers().isEmpty()) {
-            User user1 = new User();
-            user1.setNom("Lopez");
-            user1.setPrenom("Carlos");
-            user1.setLogin("CarlosLogin");
-            user1.setMdp("passwordCarlos");
-            user1.setEmail("carlos@email.com");
-
-
-            User user2 = new User();
-            user1.setNom("Perez");
-            user1.setPrenom("Mia");
-            user1.setLogin("MiaLogin");
-            user1.setMdp("passwordMia");
-            user1.setEmail("mia@email.com");
+            User user1 = new User("Lopez",
+                    "Carlos",
+                    "CarlosLogin",
+                    "passwordCarlos",
+                    "CarlosPseudo",
+                    "carlos@email.com");
+            User user2 = new User("Perez",
+                    "Mia",
+                    "MiaLogin",
+                    "passwordMia",
+                    "MiaPseudo",
+                    "mia@email.com");
 
             userService.addUser(user1);
             userService.addUser(user2);
