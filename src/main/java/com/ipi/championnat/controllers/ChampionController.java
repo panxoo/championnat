@@ -4,6 +4,7 @@ import com.ipi.championnat.pojos.User;
 import com.ipi.championnat.services.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ChampionController {
@@ -14,6 +15,10 @@ public class ChampionController {
         this.userService = userService;
     }
 
+    @GetMapping(path = {"/", "/index"})
+    public String index(){
+        return "index";
+    }
 
     @PostConstruct
     private void init() {
