@@ -1,22 +1,34 @@
 package com.ipi.championnat.pojos;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NegativeOrZero;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Championat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Le nom est obligatoire")
     private String nom;
+
     private String logo;
+    // @NotBlank(message = "Le date début est obligatoire")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateDebut;
+    // @NotBlank(message = "Le date fin est obligatoire")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateFin;
+    @Positive(message = "point superior à 0")
     private int pointGagne;
+    @NegativeOrZero(message = "point mois 1")
     private int pointPerdu;
+
     private int pointNul;
     private String typeClassement;
     @ManyToOne

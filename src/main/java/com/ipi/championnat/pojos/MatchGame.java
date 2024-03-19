@@ -3,7 +3,7 @@ package com.ipi.championnat.pojos;
 import jakarta.persistence.*;
 
 @Entity
-public class Math {
+public class MatchGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,15 +18,15 @@ public class Math {
     @ManyToOne
     private Journee journee;
 
-    public Math(){}
+    public MatchGame(){}
 
-    public Math(Equipe equipe1, Equipe equipe2, Journee journee) {
+    public MatchGame(Equipe equipe1, Equipe equipe2, Journee journee) {
         this.equipe1 = equipe1;
         this.equipe2 = equipe2;
         this.journee = journee;
     }
 
-    public Math(int pointsEquipe1, int pointsEquipe2, Equipe equipe1, Equipe equipe2, Journee journee) {
+    public MatchGame(int pointsEquipe1, int pointsEquipe2, Equipe equipe1, Equipe equipe2, Journee journee) {
         this.pointsEquipe1 = pointsEquipe1;
         this.pointsEquipe2 = pointsEquipe2;
         this.equipe1 = equipe1;

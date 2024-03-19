@@ -11,7 +11,7 @@ public class Journee {
     private Long id;
     private int numero;
     @OneToMany(mappedBy = "journee")
-    private List<Math> maths;
+    private List<MatchGame> matchs;
     @ManyToOne
     private Championat championat;
 
@@ -37,12 +37,12 @@ public class Journee {
         this.numero = numero;
     }
 
-    public List<Math> getMaths() {
-        return maths;
+    public List<MatchGame> getMatchs() {
+        return matchs;
     }
 
-    public void setMaths(List<Math> maths) {
-        this.maths = maths;
+    public void setMatchs(List<MatchGame> maths) {
+        this.matchs = matchs;
     }
 
     public Championat getChampionat() {

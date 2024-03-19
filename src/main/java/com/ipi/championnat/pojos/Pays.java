@@ -2,6 +2,7 @@ package com.ipi.championnat.pojos;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -10,12 +11,17 @@ public class Pays {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Le nom est obligatoire")
     private String nom;
+    @NotBlank(message = "Le logo est obligatoire")
     private String logo;
     @OneToMany(mappedBy = "pays")
     private List<Championat> championats;
-    public Pays(){}
-    public Pays(String nom, String logo){
+
+    public Pays() {
+    }
+
+    public Pays(String nom, String logo) {
         this.nom = nom;
         this.logo = logo;
     }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#" method="post" data-th-action="@{/championadd}" data-th-object="${championat}" accept-charset="utf-8"
+      enctype="multipart/form-data">
+    <label for="nom">Nom :</label>
+    <input data-th-field="*{nom}" type="text" class="inputChamp" placeholder="nom *"/>
+    <span data-th-if="${#fields.hasErrors('nom')}" data-th-errors="*{nom}"></span><br/>
+
+    <label for="pays">Pays :</label>
+    <select th:field="*{pays.id}" class="select" placeholder="pays *">
+        <option value="0">select option</option>
+        <option th:each="pays : ${paysList}" th:value="${pays.id}" th:text="${pays.nom}"></option>
+    </select>
+    <span data-th-if="${#fields.hasErrors('nom')}" data-th-errors="*{nom}"></span><br/>
+
+    <label for="dateDebut">Date Debut :</label>
+    <input data-th-field="*{dateDebut}" type="date" class="inputChamp" placeholder="date début *"/>
+    <span data-th-if="${#fields.hasErrors('dateDebut')}" data-th-errors="*{dateDebut}"></span><br/>
+
+    <label for="dateFin">Date Fin :</label>
+    <input data-th-field="*{dateFin}" type="date" class="inputChamp" placeholder="date fin *"/>
+    <span data-th-if="${#fields.hasErrors('dateFin')}" data-th-errors="*{dateFin}"></span><br/>
+
+    <label for="pointGagne">Point Gagne :</label>
+    <input data-th-field="*{pointGagne}" type="number" class="inputChamp" placeholder="point gagne *"/>
+    <span data-th-if="${#fields.hasErrors('pointGagne')}" data-th-errors="*{pointGagne}"></span><br/>
+
+    <label for="pointPerdu">Point Perdu :</label>
+    <input data-th-field="*{pointPerdu}" type="number" class="inputChamp" placeholder="point perdu *"/>
+    <span data-th-if="${#fields.hasErrors('pointPerdu')}" data-th-errors="*{pointPerdu}"></span><br/>
+
+    <label for="pointNul">Point Nul :</label>
+    <input data-th-field="*{pointNul}" type="number" class="inputChamp" placeholder="point nul *"/>
+    <span data-th-if="${#fields.hasErrors('pointNul')}" data-th-errors="*{pointNul}"></span><br/>
+    <br/>
+    <br/>
+    <br/>
+
+    <input type="file" name="image" accept="image/*" class="form-control-file">
+    <br/>
+    <br/> <br/>
+    <input type="submit" value="registrer" class="submitBtn"/>
+</form>
+<!--
+<img th:src = "@{/images/angers.png}" />
+<img th:src = "@{/images/lens.png}" />
+
+
+
+<img src = "/images/angers.png" />
+<img src = "/static/images/lens.png" />
+-->
+<br/>
+
+<p> Erreurs </p>
+<p data-th-text="${erreur}"></p>
+
+
+</body>
+</html>

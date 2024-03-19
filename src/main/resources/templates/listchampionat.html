@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css">
+    <link rel="stylesheet" href="ccs/style.css" />
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Logo</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Pays</th>
+        <th scope="col">Date Debut </th>
+        <th scope="col">Date Fin </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="championat : ${championats}">
+        <td><img class="imgtable" th:src="${ '/uploaded-images/' + championat.logo }"></td>
+        <td data-th-text="${ championat.nom }"></td>
+        <td><i th:class="${championat.pays.logo}"></i></td>
+        <td data-th-text="${ #dates.format(championat.dateDebut, 'yyyy-MM-dd') }"></td>
+        <td data-th-text="${ #dates.format(championat.dateFin, 'yyyy-MM-dd') }"></td>
+        <td> <a data-th-href="@{'championatdetail?id=' + ${championat.id}}">
+            <span>Open</span>
+        </a></td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
