@@ -10,4 +10,8 @@ public interface UserService {
     User getUser(Long idUser);
 
     List<User> getUsers();
+
+    User connexionUser(String pseudo, String mdp);
+
+    User getUser(String pseudo);
 }

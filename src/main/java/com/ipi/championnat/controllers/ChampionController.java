@@ -3,6 +3,7 @@ package com.ipi.championnat.controllers;
 import com.ipi.championnat.pojos.*;
 import com.ipi.championnat.services.*;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ public class ChampionController {
     private MatchGameService matchGameService;
     private PaysService paysService;
     private StadeService stadeService;
+    private HttpSession session;
     private static String UPLOAD_DIRECTORY = "src/main/resources/static/uploaded-images/";
 
     public ChampionController(UserService userService, ChampionatService championatService, EquipeService equipeService, JourneeService journeeService, MatchGameService matchGameService, PaysService paysService, StadeService stadeService) {
@@ -42,6 +44,7 @@ public class ChampionController {
         this.matchGameService = matchGameService;
         this.paysService = paysService;
         this.stadeService = stadeService;
+        this.session = session;
     }
 
     @PostConstruct
@@ -172,6 +175,54 @@ public class ChampionController {
         return "index";
     }
 
+    @GetMapping(path = "login")
+    public String login(@ModelAttribute Connexion connexion) {
+        return "login";
+    }
+
+    @PostMapping(path = "login")
+    public String login(Model model, @Validated @ModelAttribute Connexion connexion, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+
+        User user = userService.connexionUser(connexion.getPseudo(), connexion.getMdp());
+
+        if (user == null) {
+            model.addAttribute("error", "le nom d'utilisateur ou le mot de passe est incorrect");
+            return "login";
+        }
+        session.setAttribute("user", user);
+
+        return "redirect:/listchampionat";
+    }
+
+    @GetMapping(path = "inscription")
+    public String inscription(@ModelAttribute User user) {
+        return "inscription";
+    }
+
+    @PostMapping(path = "inscription")
+    public String inscription(Model model, @Validated @ModelAttribute User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "inscription";
+        }
+
+        User useraux = userService.getUser(user.getPseudo());
+
+        if (useraux != null) {
+            model.addAttribute("error", "L’user existe déjà");
+            return "inscription";
+        }
+
+        userService.addUser(user);
+
+        session.setAttribute("user", user);
+
+        return "redirect:/listchampionat";
+
+    }
+
     @GetMapping(path = "paysadd")
     public String paysAdd(Model model, @ModelAttribute Pays pays) {
 
@@ -187,16 +238,6 @@ public class ChampionController {
         model.addAttribute("championats", championats);
 
         return "listchampionat";
-    }
-
-    @GetMapping(path = "championatdetail")
-    public String championatDetail(Model model, @RequestParam long id) {
-        Championat championat = championatService.recupererChampionat(id);
-        List<MatchGame> matchGames = matchGameService.recupererMatchGame(championat);
-        model.addAttribute("championat", championat);
-        model.addAttribute("matchGames", matchGames);
-
-        return "championatdetail";
     }
 
 
@@ -225,7 +266,7 @@ public class ChampionController {
 
         Pays selectPays = paysService.recupererPays(paysId);
 
-        if(selectPays == null){
+        if (selectPays == null) {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
             model.addAttribute("erreur", "vous devez sélectionner un pays");
@@ -240,6 +281,79 @@ public class ChampionController {
         this.championatService.ajouterChampionat(championat);
 
         return "redirect:/championatdetail?id=" + championat.getId();
+    }
+
+
+    @GetMapping(path = "championupd")
+    public String championUpd(Model model, @RequestParam Long id) {
+
+        List<Pays> paysList = this.paysService.recupererPays();
+        Championat champion = this.championatService.recupererChampionat(id);
+
+        model.addAttribute("paysList", paysList);
+        model.addAttribute("championat", champion);
+
+        return "championadd";
+    }
+
+    @PostMapping(path = "championupd")
+    public String championUpd(Model model, @Validated @ModelAttribute Championat championat, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("pays.id") Long paysId) {
+        if (bindingResult.hasErrors()) {
+            List<Pays> paysList = this.paysService.recupererPays();
+            model.addAttribute("paysList", paysList);
+            return "championadd";
+        }
+        if (championat.getDateDebut().after(championat.getDateFin())) {
+            List<Pays> paysList = this.paysService.recupererPays();
+            model.addAttribute("paysList", paysList);
+            model.addAttribute("erreur", "Le date début est supérior à la date fin");
+            return "championadd";
+        }
+        Pays selectPays = paysService.recupererPays(paysId);
+
+        if (selectPays == null) {
+            List<Pays> paysList = this.paysService.recupererPays();
+            model.addAttribute("paysList", paysList);
+            model.addAttribute("erreur", "vous devez sélectionner un pays");
+            return "championadd";
+        }
+
+        championat.setPays(selectPays);
+
+        Championat championatOrg = this.championatService.recupererChampionat(championat.getId());
+
+        String nomFile;
+
+        if (!file.isEmpty()) {
+            nomFile = saveImage(file, "championat/");
+        } else {
+            nomFile = championatOrg.getLogo();
+        }
+        championat.setLogo(nomFile);
+
+        this.championatService.ajouterChampionat(championat);
+
+        return "redirect:/championatdetail?id=" + championat.getId();
+    }
+
+
+    @GetMapping(path = "championatdetail")
+    public String championatDetail(Model model, @RequestParam long id) {
+        Championat championat = championatService.recupererChampionat(id);
+        List<MatchGame> matchGames = matchGameService.recupererMatchGame(championat);
+        model.addAttribute("championat", championat);
+        model.addAttribute("matchGames", matchGames);
+
+        return "championatdetail";
+    }
+
+    @PostMapping(path = "journeeadd")
+    public String journeeAdd(Model model, @RequestParam MatchGame matchGame) {
+
+        journeeService.ajouterJournee(matchGame.getJournee());
+        matchGameService.ajouterMatchGame(matchGame);
+
+        return "championatdetail";
     }
 
     @GetMapping(path = "listequipe")
@@ -286,6 +400,53 @@ public class ChampionController {
 
         equipeService.ajouterEquipe(equipe);
 
+
+        return "redirect:/equipedetail?id=" + equipe.getId();
+    }
+
+
+    @GetMapping(path = "equipeupd")
+    public String equipeUpd(Model model, @RequestParam Long id) {
+        List<Stade> stades = stadeService.recupererStade();
+        Equipe equipe1 = equipeService.recupererEquipe(id);
+
+        model.addAttribute("stades", stades);
+        model.addAttribute("equipe", equipe1);
+
+        return "equipeadd";
+    }
+
+    @PostMapping(path = "equipeupd")
+    public String equipeUpd(Model model, @Validated @ModelAttribute Equipe equipe, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("stade.id") Long stadeId) {
+        if (bindingResult.hasErrors()) {
+            List<Stade> stades = stadeService.recupererStade();
+            model.addAttribute("stades", stades);
+            return "equipeadd";
+        }
+
+        if (equipeService.recupererEquipeByNom(equipe.getNom()) != null) {
+            List<Stade> stades = stadeService.recupererStade();
+            model.addAttribute("stades", stades);
+            model.addAttribute("Error", "L’équipe existe déjà");
+            return "equipeadd";
+        }
+
+        Stade stade = stadeService.recupererStade(stadeId);
+
+        equipe.setStade(stade);
+
+        Equipe equipeAux = equipeService.recupererEquipe(equipe.getId());
+        String nomFile;
+
+        if (!file.isEmpty()) {
+            nomFile = saveImage(file, "equipes/");
+        } else {
+            nomFile = equipeAux.getLogo();
+        }
+
+        equipe.setLogo("equipes/" + nomFile);
+
+        equipeService.ajouterEquipe(equipe);
 
         return "redirect:/equipedetail?id=" + equipe.getId();
     }

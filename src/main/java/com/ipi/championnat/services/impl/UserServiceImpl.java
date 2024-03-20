@@ -20,20 +20,21 @@ public class UserServiceImpl implements UserService {
         return userDao.save(user);
     }
 
-
     @Override
     public User getUser(Long idUser) {
         return userDao.findById(idUser).orElse(null);
     }
-
-
 
     @Override
     public List<User> getUsers() {
         return userDao.findAll();
     }
 
+    @Override
+    public User connexionUser(String pseudo, String mdp) {
+        return userDao.findUserByPseudoAndMdp(pseudo, mdp);
+    }
 
-
-
+    @Override
+    public User getUser(String pseudo){ return  userDao.findByPseudo(pseudo);}
 }
