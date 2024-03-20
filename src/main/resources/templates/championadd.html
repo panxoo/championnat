@@ -1,65 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link href="./favicon.png" rel="icon"/>
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport"
+    />
+    <title>Ajouter un Championat</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/style_championadd.css" rel="stylesheet"/>
 </head>
 <body>
-<form action="#" method="post" data-th-action="@{/championadd}" data-th-object="${championat}" accept-charset="utf-8"
-      enctype="multipart/form-data">
-    <label for="nom">Nom :</label>
-    <input data-th-field="*{nom}" type="text" class="inputChamp" placeholder="nom *"/>
-    <span data-th-if="${#fields.hasErrors('nom')}" data-th-errors="*{nom}"></span><br/>
+<header>
+    <nav>
 
-    <label for="pays">Pays :</label>
-    <select th:field="*{pays.id}" class="select" placeholder="pays *">
-        <option value="0">select option</option>
-        <option th:each="pays : ${paysList}" th:value="${pays.id}" th:text="${pays.nom}"></option>
-    </select>
-    <span data-th-if="${#fields.hasErrors('nom')}" data-th-errors="*{nom}"></span><br/>
+    </nav>
 
-    <label for="dateDebut">Date Debut :</label>
-    <input data-th-field="*{dateDebut}" type="date" class="inputChamp" placeholder="date début *"/>
-    <span data-th-if="${#fields.hasErrors('dateDebut')}" data-th-errors="*{dateDebut}"></span><br/>
+</header>
+<form accept-charset="utf-8" action="#" data-th-action="@{/championadd}" data-th-object="${championat}"
+      enctype="multipart/form-data"
+      method="post">
+    <div>
+        <label for="nom">Nom *</label>
+        <input class="inputChamp" data-th-field="*{nom}" placeholder="Nom *" type="text"/>
+        <span data-th-errors="*{nom}" data-th-if="${#fields.hasErrors('nom')}"></span>
+    </div>
+    <div>
+        <label for="pays">Pays *</label>
+        <select placeholder="Pays *" th:field="*{pays.id}">
+            <option value="0">Aucun</option>
+            <option th:each="pays : ${paysList}" th:text="${pays.nom}" th:value="${pays.id}"></option>
+        </select>
+        <span data-th-errors="*{nom}" data-th-if="${#fields.hasErrors('nom')}"></span>
+    </div>
+    <div class="championadd_rows-container">
+        <div>
+            <label for="dateDebut">Date Debut *</label>
+            <input class="inputChamp" data-th-field="*{dateDebut}" placeholder="Date début *" type="date"/>
+            <span data-th-errors="*{dateDebut}" data-th-if="${#fields.hasErrors('dateDebut')}"></span>
+        </div>
+        <div>
+            <label for="dateFin">Date Fin *</label>
+            <input class="inputChamp" data-th-field="*{dateFin}" placeholder="Date fin *" type="date"/>
+            <span data-th-errors="*{dateFin}" data-th-if="${#fields.hasErrors('dateFin')}"></span>
+        </div>
+    </div>
+    <div class="championadd_rows-container">
+        <div>
+            <label for="pointGagne">Victoire *</label>
+            <input class="inputChamp" data-th-field="*{pointGagne}" placeholder="Victoire *" type="number"/>
+            <span data-th-errors="*{pointGagne}" data-th-if="${#fields.hasErrors('pointGagne')}"></span>
+        </div>
+        <div>
+            <label for="pointPerdu">Défaite *</label>
+            <input class="inputChamp" data-th-field="*{pointPerdu}" placeholder="Défaite *" type="number"/>
+            <span data-th-errors="*{pointPerdu}" data-th-if="${#fields.hasErrors('pointPerdu')}"></span>
+        </div>
+        <div>
+            <label for="pointNul">Égalité *</label>
+            <input class="inputChamp" data-th-field="*{pointNul}" placeholder="Égalité *" type="number"/>
+            <span data-th-errors="*{pointNul}" data-th-if="${#fields.hasErrors('pointNul')}"></span>
+        </div>
+    </div>
+    <div>
+        <label>Logo *</label>
+        <input accept="image/*" class="form-control-file" name="image" type="file">
+    </div>
+    <input class="submitBtn" type="submit" value="Valider"/>
 
-    <label for="dateFin">Date Fin :</label>
-    <input data-th-field="*{dateFin}" type="date" class="inputChamp" placeholder="date fin *"/>
-    <span data-th-if="${#fields.hasErrors('dateFin')}" data-th-errors="*{dateFin}"></span><br/>
-
-    <label for="pointGagne">Point Gagne :</label>
-    <input data-th-field="*{pointGagne}" type="number" class="inputChamp" placeholder="point gagne *"/>
-    <span data-th-if="${#fields.hasErrors('pointGagne')}" data-th-errors="*{pointGagne}"></span><br/>
-
-    <label for="pointPerdu">Point Perdu :</label>
-    <input data-th-field="*{pointPerdu}" type="number" class="inputChamp" placeholder="point perdu *"/>
-    <span data-th-if="${#fields.hasErrors('pointPerdu')}" data-th-errors="*{pointPerdu}"></span><br/>
-
-    <label for="pointNul">Point Nul :</label>
-    <input data-th-field="*{pointNul}" type="number" class="inputChamp" placeholder="point nul *"/>
-    <span data-th-if="${#fields.hasErrors('pointNul')}" data-th-errors="*{pointNul}"></span><br/>
-    <br/>
-    <br/>
-    <br/>
-
-    <input type="file" name="image" accept="image/*" class="form-control-file">
-    <br/>
-    <br/> <br/>
-    <input type="submit" value="registrer" class="submitBtn"/>
 </form>
-<!--
-<img th:src = "@{/images/angers.png}" />
-<img th:src = "@{/images/lens.png}" />
-
-
-
-<img src = "/images/angers.png" />
-<img src = "/static/images/lens.png" />
--->
-<br/>
-
-<p> Erreurs </p>
-<p data-th-text="${erreur}"></p>
-
-
 </body>
 </html>
