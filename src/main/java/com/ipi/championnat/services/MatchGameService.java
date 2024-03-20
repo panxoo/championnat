@@ -1,4 +1,4 @@
 package com.ipi.championnat.services;
 
-public interface MathService {
+public interface MatchGameService {
 }

@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EquipeDao extends JpaRepository<Equipe, Long> {
-    Equipe updateEquipeById(Long id);
 }

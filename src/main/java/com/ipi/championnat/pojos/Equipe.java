@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Equipe {
@@ -30,14 +29,16 @@ public class Equipe {
     )
     private List<Championat> championates;
 
-   @OneToMany(mappedBy = "equipe1")
-    private List<Math> maths1;
+    @OneToMany(mappedBy = "equipe1")
+    private List<MatchGame> maths1;
 
     @OneToMany(mappedBy = "equipe2")
-    private List<Math> maths2;
-    public Equipe(){}
+    private List<MatchGame> maths2;
 
-    public Equipe(String nom, Date dateCreation, String logo, String nomEntraineur, String president, String status, String siege, String telephone, String siteWeb, Stade stade) {
+    public Equipe() {
+    }
+
+    public Equipe(String nom, Date dateCreation, String logo, String nomEntraineur, String president, String status, String siege, String telephone, String siteWeb, String stadeId) {
         this.nom = nom;
         this.dateCreation = dateCreation;
         this.logo = logo;
@@ -138,19 +139,19 @@ public class Equipe {
         this.stade = stade;
     }
 
-    public List<Math> getMaths1() {
+    public List<MatchGame> getMaths1() {
         return maths1;
     }
 
-    public void setMaths1(List<Math> maths1) {
+    public void setMaths1(List<MatchGame> maths1) {
         this.maths1 = maths1;
     }
 
-    public List<Math> getMaths2() {
+    public List<MatchGame> getMaths2() {
         return maths2;
     }
 
-    public void setMaths2(List<Math> maths2) {
+    public void setMaths2(List<MatchGame> maths2) {
         this.maths2 = maths2;
     }
 

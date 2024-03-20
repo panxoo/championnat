@@ -21,6 +21,11 @@ public class EquipeServiceImpl implements EquipeService {
     }
 
     @Override
+    public Equipe updateEquipe(Long id, Equipe newData) {
+        return equipeDao.save(newData);
+    }
+
+    @Override
     public Equipe getEquipe(Long idEquipe) {
         return equipeDao.findById(idEquipe).orElse(null);
     }

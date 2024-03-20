@@ -1,18 +1,16 @@
 package com.ipi.championnat.controllers;
 
 import com.ipi.championnat.pojos.Equipe;
+import com.ipi.championnat.pojos.Stade;
 import com.ipi.championnat.pojos.User;
 import com.ipi.championnat.services.EquipeService;
 import com.ipi.championnat.services.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.ErrorResponseException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @Controller
 public class ChampionController {
@@ -48,20 +46,28 @@ public class ChampionController {
             userService.addUser(user1);
             userService.addUser(user2);
         }
+        if (equipeService.getEquipes().isEmpty()) {
+            Equipe equipe1 = new Equipe("String nom", new Date(), "String logo", "String nomEntraineur", "String president", "String status", "String siege", "String telephone", "String siteWeb", "String stadeId");
+            Equipe equipe2 = new Equipe("String nom", new Date(), "String logo", "String nomEntraineur", "String president", "String status", "String siege", "String telephone", "String siteWeb", "String stadeId");
+
+            equipeService.addEquipe(equipe1);
+            equipeService.addEquipe(equipe2);
+        }
     }
 
     @PutMapping("updateEquipe/{id}")
-    public Equipe updateEquipe(@PathVariable Long id, @RequestBody Equipe equipeDetails) {
-        Equipe equipe = equipeService.getEquipeById(id);
+    public Equipe updateEquipe(@PathVariable Long id, @RequestBody Equipe newData) {
+        Equipe equipeToUpdate = equipeService.getEquipe(id);
 
-        if (equipe == null) {
-            throw new ResourceNotFoundException("Équipe non trouvée avec l'ID : " + id);
+        if (equipeToUpdate == null) {
+            return null;
         }
 
-        Equipe.setNom(equipeDetails.getNom());
-        Equipe.setLogo(equipeDetails.getLogo());
-        Equipe.setNomEntraineur(equipeDetails.getNomEntraineur());
-        Equipe.setPresident(equipeDetails.getPresident());
+        equipeToUpdate.setNom(newData.getNom());
+        equipeToUpdate.setLogo(newData.getLogo());
+        equipeToUpdate.setNomEntraineur(newData.getNomEntraineur());
+        equipeToUpdate.setPresident(newData.getPresident());
 
-        return equipeService.saveEquipe(equipe);
+        return equipeService.updateEquipe(id, equipeToUpdate);
+    }
 }
