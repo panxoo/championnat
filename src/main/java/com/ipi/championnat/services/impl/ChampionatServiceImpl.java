@@ -26,4 +26,9 @@ public class ChampionatServiceImpl implements ChampionatService {
         return  championatDao.findAll();
     }
 
+    @Override
+    public Championat  recupererChampionat(String nom){
+        return championatDao.findFirstByNom(nom);
+    }
+
 }

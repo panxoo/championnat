@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EquipeDao extends JpaRepository<Equipe, Long> {
+    public Equipe findFirstByNom(String nom);
 }

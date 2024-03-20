@@ -9,4 +9,5 @@ public interface ChampionatService {
     Championat ajouterChampionat(Championat championat);
     Championat recupererChampionat(Long idchampionat);
     List<Championat> recupererChampionat();
+    Championat recupererChampionat(String nom);
 }

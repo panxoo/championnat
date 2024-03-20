@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ChampionatDao  extends JpaRepository<Championat, Long> {
     public List<Championat> findChampionatsByPays(Pays pays);
+    public Championat findFirstByNom(String nom);
 }

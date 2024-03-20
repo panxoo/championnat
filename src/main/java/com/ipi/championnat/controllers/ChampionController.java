@@ -1,9 +1,6 @@
 package com.ipi.championnat.controllers;
 
-import com.ipi.championnat.pojos.Championat;
-import com.ipi.championnat.pojos.MatchGame;
-import com.ipi.championnat.pojos.Pays;
-import com.ipi.championnat.pojos.User;
+import com.ipi.championnat.pojos.*;
 import com.ipi.championnat.services.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Controller;
@@ -71,6 +68,10 @@ public class ChampionController {
             savePays();
         }
 
+        if (stadeService.recupererStade().isEmpty()) {
+            saveStades();
+        }
+
     }
 
     private void savePays() {
@@ -120,6 +121,52 @@ public class ChampionController {
         paysService.ajouterPays(payses);
     }
 
+    private void saveStades() {
+        List<Stade> stades = new ArrayList<>();
+
+        stades.add(new Stade("Santiago Bernabéu", "Madrid, España", 81044, "+34 91 398 43 00"));
+        stades.add(new Stade("Camp Nou", "Barcelona, España", 99354, "+34 902 18 99 00"));
+        stades.add(new Stade("Wembley Stadium", "Londres, Reino Unido", 90000, "+44 20 8795 9000"));
+        stades.add(new Stade("Old Trafford", "Mánchester, Reino Unido", 74140, "+44 161 868 8000"));
+        stades.add(new Stade("Allianz Arena", "Múnich, Alemania", 75024, "+49 89 699 31222"));
+        stades.add(new Stade("Signal Iduna Park (Westfalenstadion)", "Dortmund, Alemania", 81365, "+49 180 5 99 00 00"));
+        stades.add(new Stade("San Siro (Giuseppe Meazza)", "Milán, Italia", 80018, "+39 02 4879991"));
+        stades.add(new Stade("Stadio Olimpico", "Roma, Italia", 70634, "+39 06 3685 2745"));
+        stades.add(new Stade("Stade de France", "Saint-Denis, Francia", 81338, "+33 892 70 12 32"));
+        stades.add(new Stade("Parc des Princes", "París, Francia", 48712, "+33 1 47 43 71 71"));
+        stades.add(new Stade("Estádio da Luz", "Lisboa, Portugal", 64642, "+351 21 721 9555"));
+        stades.add(new Stade("Estádio do Dragão", "Oporto, Portugal", 50033, "+351 22 508 3311"));
+        stades.add(new Stade("Johan Cruyff Arena", "Ámsterdam, Países Bajos", 54990, "+31 20 311 1333"));
+        stades.add(new Stade("De Kuip", "Róterdam, Países Bajos", 51117, "+31 10 492 9492"));
+
+        stadeService.ajouterStades(stades);
+    }
+
+    private String saveImage(MultipartFile file, String subpath) {
+        if (!file.isEmpty()) {
+            try {
+                File uploadDir = new File(UPLOAD_DIRECTORY + subpath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
+                String nomFile = UUID.randomUUID().toString().substring(0, 8) + "_" + file.getOriginalFilename();
+
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(UPLOAD_DIRECTORY + subpath + nomFile);
+                Files.write(path, bytes);
+
+                return subpath + nomFile;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "";
+    }
+
+
     @GetMapping(path = {"/", "/index"})
     public String index() {
         return "index";
@@ -135,7 +182,7 @@ public class ChampionController {
     }
 
     @GetMapping(path = "listchampionat")
-    public String championates(Model model){
+    public String championates(Model model) {
         List<Championat> championats = championatService.recupererChampionat();
         model.addAttribute("championats", championats);
 
@@ -143,9 +190,11 @@ public class ChampionController {
     }
 
     @GetMapping(path = "championatdetail")
-    public String championatDetail(Model model, @RequestParam long id){
+    public String championatDetail(Model model, @RequestParam long id) {
         Championat championat = championatService.recupererChampionat(id);
+        List<MatchGame> matchGames = matchGameService.recupererMatchGame(championat);
         model.addAttribute("championat", championat);
+        model.addAttribute("matchGames", matchGames);
 
         return "championatdetail";
     }
@@ -163,40 +212,92 @@ public class ChampionController {
     @PostMapping(path = "championadd")
     public String championAdd(Model model, @Validated @ModelAttribute Championat championat, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("pays.id") Long paysId) {
         if (bindingResult.hasErrors()) {
+            List<Pays> paysList = this.paysService.recupererPays();
+            model.addAttribute("paysList", paysList);
             return "championadd";
         }
         if (championat.getDateDebut().after(championat.getDateFin())) {
-            model.addAttribute("Error", "Le date début est supérior à la date fin");
+            List<Pays> paysList = this.paysService.recupererPays();
+            model.addAttribute("paysList", paysList);
+            model.addAttribute("erreur", "Le date début est supérior à la date fin");
+            return "championadd";
         }
 
         Pays selectPays = paysService.recupererPays(paysId);
 
-        championat.setPays(selectPays);
-
-
-        if (!file.isEmpty()) {
-            try {
-                File uploadDir = new File(UPLOAD_DIRECTORY + "championat");
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();
-                }
-
-                String nomFile = UUID.randomUUID().toString().substring(0, 8) + "_" + file.getOriginalFilename();
-
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOAD_DIRECTORY + "championat/" + nomFile);
-                Files.write(path, bytes);
-
-                championat.setLogo("championat/" + nomFile);
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(selectPays == null){
+            List<Pays> paysList = this.paysService.recupererPays();
+            model.addAttribute("paysList", paysList);
+            model.addAttribute("erreur", "vous devez sélectionner un pays");
+            return "championadd";
         }
 
+        championat.setPays(selectPays);
+
+        String nomFile = saveImage(file, "championat/");
+        championat.setLogo(nomFile);
+
         this.championatService.ajouterChampionat(championat);
-        return "championadd";
+
+        return "redirect:/championatdetail?id=" + championat.getId();
+    }
+
+    @GetMapping(path = "listequipe")
+    public String listEquipe(Model model) {
+        List<Equipe> equipes = equipeService.recupererEquipes();
+
+        model.addAttribute("equipes", equipes);
+
+        return "listequipes";
+    }
+
+
+    @GetMapping(path = "equipeadd")
+    public String equipeAdd(Model model, @ModelAttribute Equipe equipe) {
+        List<Stade> stades = stadeService.recupererStade();
+        model.addAttribute("stades", stades);
+
+        return "equipeadd";
+    }
+
+    @PostMapping(path = "equipeadd")
+    public String equipeAdd(Model model, @Validated @ModelAttribute Equipe equipe, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("stade.id") Long stadeId) {
+        if (bindingResult.hasErrors()) {
+            List<Stade> stades = stadeService.recupererStade();
+            model.addAttribute("stades", stades);
+            return "equipeadd";
+        }
+
+        if (equipeService.recupererEquipeByNom(equipe.getNom()) != null) {
+            List<Stade> stades = stadeService.recupererStade();
+            model.addAttribute("stades", stades);
+            model.addAttribute("Error", "L’équipe existe déjà");
+            return "equipeadd";
+        }
+
+        Stade stade = stadeService.recupererStade(stadeId);
+
+        equipe.setStade(stade);
+
+        String nomFile = saveImage(file, "equipes/");
+
+        equipe.setLogo("equipes/" + nomFile);
+
+
+        equipeService.ajouterEquipe(equipe);
+
+
+        return "redirect:/equipedetail?id=" + equipe.getId();
+    }
+
+    @GetMapping(path = "equipedetail")
+    public String equipeDetail(Model model, @RequestParam Long id) {
+
+        Equipe equipe = equipeService.recupererEquipe(id);
+
+        model.addAttribute("equipe", equipe);
+
+        return "equipedetail";
     }
 
 
