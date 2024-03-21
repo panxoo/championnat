@@ -12,63 +12,66 @@
     <link href="css/style_championadd.css" rel="stylesheet"/>
 </head>
 <body>
-<header>
-    <nav>
 
-    </nav>
+<div class="include__container" th:include="fragments/header :: header"></div>
+<main>
+    <h1>Complétez ce formulaire pour ajouter un Championat</h1>
+    <h4><p>Veuillez remplir le formulaire ci-dessous pour ajouter un nouveau championnat à notre base de données. Les
+        champs marqués d'un astérisque (*) sont obligatoires.</p></h4>
+    <form accept-charset="utf-8" action="#" data-th-action="@{/championadd}" data-th-object="${championat}"
+          enctype="multipart/form-data"
+          method="post">
+        <div class="input__container">
+            <label for="nom">Nom *</label>
+            <input class="inputChamp" data-th-field="*{nom}" placeholder="Nom *" type="text"/>
+            <span data-th-errors="*{nom}" data-th-if="${#fields.hasErrors('nom')}"></span>
+        </div>
+        <div class="input__container">
+            <label for="pays">Pays *</label>
+            <select placeholder="Pays *" th:field="*{pays.id}">
+                <option value="0">Aucun</option>
+                <option th:each="pays : ${paysList}" th:text="${pays.nom}" th:value="${pays.id}"></option>
+            </select>
+            <span data-th-errors="*{nom}" data-th-if="${#fields.hasErrors('nom')}"></span>
+        </div>
+        <div class="championadd_rows-container">
 
-</header>
-<form accept-charset="utf-8" action="#" data-th-action="@{/championadd}" data-th-object="${championat}"
-      enctype="multipart/form-data"
-      method="post">
-    <div>
-        <label for="nom">Nom *</label>
-        <input class="inputChamp" data-th-field="*{nom}" placeholder="Nom *" type="text"/>
-        <span data-th-errors="*{nom}" data-th-if="${#fields.hasErrors('nom')}"></span>
-    </div>
-    <div>
-        <label for="pays">Pays *</label>
-        <select placeholder="Pays *" th:field="*{pays.id}">
-            <option value="0">Aucun</option>
-            <option th:each="pays : ${paysList}" th:text="${pays.nom}" th:value="${pays.id}"></option>
-        </select>
-        <span data-th-errors="*{nom}" data-th-if="${#fields.hasErrors('nom')}"></span>
-    </div>
-    <div class="championadd_rows-container">
-        <div>
-            <label for="dateDebut">Date Debut *</label>
-            <input class="inputChamp" data-th-field="*{dateDebut}" placeholder="Date début *" type="date"/>
-            <span data-th-errors="*{dateDebut}" data-th-if="${#fields.hasErrors('dateDebut')}"></span>
+            <div class="input__container">
+                <label for="dateDebut">Date Debut *</label>
+                <input class="inputChamp" data-th-field="*{dateDebut}" placeholder="Date début *" type="date"/>
+                <span data-th-errors="*{dateDebut}" data-th-if="${#fields.hasErrors('dateDebut')}"></span>
+            </div>
+            <div class="input__container">
+                <label for="dateFin">Date Fin *</label>
+                <input class="inputChamp" data-th-field="*{dateFin}" placeholder="Date fin *" type="date"/>
+                <span data-th-errors="*{dateFin}" data-th-if="${#fields.hasErrors('dateFin')}"></span>
+            </div>
         </div>
-        <div>
-            <label for="dateFin">Date Fin *</label>
-            <input class="inputChamp" data-th-field="*{dateFin}" placeholder="Date fin *" type="date"/>
-            <span data-th-errors="*{dateFin}" data-th-if="${#fields.hasErrors('dateFin')}"></span>
+        <div class="championadd_rows-container">
+            <div class="input__container">
+                <label for="pointGagne">Victoire *</label>
+                <input class="inputChamp" data-th-field="*{pointGagne}" placeholder="Victoire *" type="number"/>
+                <span data-th-errors="*{pointGagne}" data-th-if="${#fields.hasErrors('pointGagne')}"></span>
+            </div>
+            <div class="input__container">
+                <label for="pointPerdu">Défaite *</label>
+                <input class="inputChamp" data-th-field="*{pointPerdu}" placeholder="Défaite *" type="number"/>
+                <span data-th-errors="*{pointPerdu}" data-th-if="${#fields.hasErrors('pointPerdu')}"></span>
+            </div>
+            <div class="input__container">
+                <label for="pointNul">Égalité *</label>
+                <input class="inputChamp" data-th-field="*{pointNul}" placeholder="Égalité *" type="number"/>
+                <span data-th-errors="*{pointNul}" data-th-if="${#fields.hasErrors('pointNul')}"></span>
+            </div>
         </div>
-    </div>
-    <div class="championadd_rows-container">
-        <div>
-            <label for="pointGagne">Victoire *</label>
-            <input class="inputChamp" data-th-field="*{pointGagne}" placeholder="Victoire *" type="number"/>
-            <span data-th-errors="*{pointGagne}" data-th-if="${#fields.hasErrors('pointGagne')}"></span>
+        <div class="input__container">
+            <label>Logo *</label>
+            <input accept="image/*" class="form-control-file" name="image" type="file">
         </div>
-        <div>
-            <label for="pointPerdu">Défaite *</label>
-            <input class="inputChamp" data-th-field="*{pointPerdu}" placeholder="Défaite *" type="number"/>
-            <span data-th-errors="*{pointPerdu}" data-th-if="${#fields.hasErrors('pointPerdu')}"></span>
-        </div>
-        <div>
-            <label for="pointNul">Égalité *</label>
-            <input class="inputChamp" data-th-field="*{pointNul}" placeholder="Égalité *" type="number"/>
-            <span data-th-errors="*{pointNul}" data-th-if="${#fields.hasErrors('pointNul')}"></span>
-        </div>
-    </div>
-    <div>
-        <label>Logo *</label>
-        <input accept="image/*" class="form-control-file" name="image" type="file">
-    </div>
-    <input class="submitBtn" type="submit" value="Valider"/>
+        <input class="submitBtn" type="submit" value="Valider"/>
+    </form>
+</main>
+<div class="include__container" th:include="fragments/footer :: footer"></div>
 
-</form>
 </body>
 </html>
