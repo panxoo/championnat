@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
     <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="include__container" th:include="fragments/header :: header"></div>
 <main>
 
-    <h1>login</h1>
+    <h1>Login</h1>
 
     <form accept-charset="utf-8" action="#" data-th-action="@{/login}" data-th-object="${connexion}"
           method="post">
@@ -34,6 +34,7 @@
         Erreur : <span th:text="${error}"></span>
     </div>
 </main>
+<div class="include__container" th:include="fragments/footer :: footer"></div>
 
 </body>
 </html>

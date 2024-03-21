@@ -11,7 +11,7 @@
 <body>
 
 <div class="include__container" th:include="fragments/header :: header"></div>
-<main>
+<main data-th-if="${session.user != null}">
     <h1>Complétez ce formulaire pour ajouter un Équipe</h1>
     <h4>Veuillez remplir le formulaire ci-dessous pour ajouter un nouveau Équipe à notre base de données. Les
         champs marqués d'un astérisque (*) sont obligatoires.</h4>
