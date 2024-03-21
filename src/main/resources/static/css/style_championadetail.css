@@ -1,9 +1,13 @@
 .championat__container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 2rem;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
+}
+
+.championat__tablecontainer {
+    display: flex;
 }
 
 .championat__content {

@@ -1,8 +1,8 @@
 .equipe__container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 2rem;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
 }
 
@@ -11,7 +11,7 @@
     border: none;
     border-radius: 5px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 3rem;
     gap: 2rem;
     align-items: center;
