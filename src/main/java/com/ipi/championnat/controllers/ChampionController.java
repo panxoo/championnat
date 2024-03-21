@@ -25,6 +25,7 @@ import java.util.UUID;
 
 @Controller
 public class ChampionController {
+    private static String UPLOAD_DIRECTORY = "src/main/resources/static/uploaded-images/";
     private UserService userService;
     private ChampionatService championatService;
     private EquipeService equipeService;
@@ -33,7 +34,6 @@ public class ChampionController {
     private PaysService paysService;
     private StadeService stadeService;
     private HttpSession session;
-    private static String UPLOAD_DIRECTORY = "src/main/resources/static/uploaded-images/";
 
     public ChampionController(UserService userService, ChampionatService championatService, EquipeService equipeService, JourneeService journeeService, MatchGameService matchGameService, PaysService paysService, StadeService stadeService) {
         super();
@@ -376,6 +376,7 @@ public class ChampionController {
 
     @PostMapping(path = "equipeadd")
     public String equipeAdd(Model model, @Validated @ModelAttribute Equipe equipe, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("stade.id") Long stadeId) {
+        System.out.println(equipe);
         if (bindingResult.hasErrors()) {
             List<Stade> stades = stadeService.recupererStade();
             model.addAttribute("stades", stades);

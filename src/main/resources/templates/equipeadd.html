@@ -2,11 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css">
-    <link rel="stylesheet" href="ccs/style.css" />
+    <title>Ajouter un Équipe</title>
+    <link href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/style_equipeadd.css" rel="stylesheet"/>
 </head>
+
 <body>
+
+<div class="include__container" th:include="fragments/header :: header"></div>
+<main>
+    <h1>Complétez ce formulaire pour ajouter un Équipe</h1>
+    <h4><p>Veuillez remplir le formulaire ci-dessous pour ajouter un nouveau Équipe à notre base de données. Les
+        champs marqués d'un astérisque (*) sont obligatoires.</p></h4>
+    <form accept-charset="utf-8" action="#" data-th-action="@{/equipeadd}" data-th-object="${equipe}"
+          enctype="multipart/form-data"
+          method="post">
+        <div class="input__container">
+            <label>Nom *</label>
+            <input class="inputChamp" data-th-field="*{nom}" placeholder="Nom *" type="text"/>
+        </div>
+        <div class="input__container">
+            <label>Stade *</label>
+            <select placeholder="Stade *" th:field="*{stade.id}">
+                <option value="0">Aucun</option>
+                <option th:each="stade : ${stades}" th:text="${stade.nom}" th:value="${stade.id}"></option>
+            </select>
+        </div>
+        <div class="input__container">
+            <label>Date création *</label>
+            <input class="inputChamp" data-th-field="*{dateCreation}" placeholder="Date création *" type="date"/>
+            <span data-th-errors="*{dateCreation}" data-th-if="${#fields.hasErrors('dateCreation')}"></span>
+
+        </div>
+
+        <div class="input__container">
+            <label>Logo *</label>
+            <input accept="image/*" class="form-control-file" name="image" type="file">
+        </div>
+
+        <div class="championadd_rows-container">
+            <div class="input__container">
+                <label>Entraîneur *</label>
+                <input class="inputChamp" data-th-field="*{nomEntraineur}" placeholder="Entraîneur *" type="text"/>
+            </div>
+
+            <div class="input__container">
+                <label>Président *</label>
+                <input class="inputChamp" data-th-field="*{president}" placeholder="Président *" type="text"/>
+            </div>
+        </div>
+        <div class="championadd_rows-container">
+            <div class="input__container">
+                <label>Status *</label>
+                <input class="inputChamp" data-th-field="*{status}" placeholder="Status *" type="text"/>
+            </div>
+
+            <div class="input__container">
+                <label>Siège *</label>
+                <input class="inputChamp" data-th-field="*{siege}" placeholder="Siège *" type="text"/>
+            </div>
+
+            <div class="input__container">
+                <label>Téléphone *</label>
+                <input class="inputChamp" data-th-field="*{telephone}" placeholder="Téléphone *" type="text"/>
+            </div>
+
+        </div>
+        <div class="input__container">
+            <label>Link Web *</label>
+            <input class="inputChamp" data-th-field="*{siteWeb}" placeholder="Link Web *" type="text"/>
+        </div>
+
+        <input class="submitBtn" type="submit" value="Valider"/>
+    </form>
+</main>
+<div class="include__container" th:include="fragments/footer :: footer"></div>
 
 </body>
 </html>
