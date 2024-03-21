@@ -176,7 +176,7 @@ public class ChampionController {
     public String index(Model model) {
 
         List<Championat> championats = this.championatService.recupererChampionat();
-        List<Pays> paysList= this.paysService.recupererPaysAvecChampionat();
+        List<Pays> paysList = this.paysService.recupererPaysAvecChampionat();
 
         model.addAttribute("championats", championats);
         model.addAttribute("payslist", paysList);
@@ -185,15 +185,15 @@ public class ChampionController {
     }
 
     @GetMapping(path = "championtresultat")
-    public String championtresultat(Model model, @RequestParam Long id){
+    public String championtresultat(Model model, @RequestParam Long id) {
 
         Championat championat = this.championatService.recupererChampionat(id);
         List<MatchGame> matchGames = this.matchGameService.recupererMatchGame(championat);
 
         List<Date> distinctDateMatchs = matchGames.stream()
-                                        .map(MatchGame::getDateMatchs)
-                                        .distinct()
-                                        .collect(Collectors.toList());
+                .map(MatchGame::getDateMatchs)
+                .distinct()
+                .collect(Collectors.toList());
 
 
         model.addAttribute("championat", championat);
@@ -491,7 +491,6 @@ public class ChampionController {
 
         return "equipedetail";
     }
-
 
 
 }

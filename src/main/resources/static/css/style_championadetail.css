@@ -1,13 +1,29 @@
 .championat__container {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 0.5rem;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .championat__tablecontainer {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: calc(50% - 1rem);
+}
+
+@media (max-width: 700px) {
+    .championat__tablecontainer {
+        width: 100%;
+    }
+
+    .championat__tablecontainer:nth-child(2) {
+        margin-top: 3rem;
+    }
 }
 
 .championat__content {
@@ -20,7 +36,7 @@
     gap: 2rem;
     align-items: center;
     justify-content: center;
-    max-width: 700px;
+    width: 100%;
     box-shadow: -1px 0px 11px -3px rgba(0, 0, 0, 0.64);
 }
 
