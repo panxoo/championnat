@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link href="./favicon.png" rel="icon"/>
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport"
+    />
+    <link href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css" rel="stylesheet">
+
+    <title th:text="${equipe.nom}"></title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/style_equipedetail.css" rel="stylesheet"/>
 </head>
 <body>
+
+<div class="include__container" th:include="fragments/header :: header"></div>
+<main>
+    <h1 th:text="'Equipe : ' + ${equipe.nom}"></h1>
+    <h4>Vous pouvez éditer cet Équipe que si vous êtes connecté.
+    </h4>
+    <div class="equipe__container">
+        <table class="equipe__content">
+            <tr>
+                <th>Nom:</th>
+                <td th:text="${equipe.nom}"></td>
+            </tr>
+            <tr>
+                <th>Date de création:</th>
+                <td th:text="${#dates.format(equipe.dateCreation, 'yyyy-MM-dd')}"></td>
+            </tr>
+            <tr>
+                <th>Logo:</th>
+                <td><img alt="Logo de l'équipe" th:src="'/uploaded-images/' + ${equipe.logo}" width="30px"></td>
+            </tr>
+            <tr>
+                <th>Nom de l'entraîneur:</th>
+                <td th:text="${equipe.nomEntraineur}"></td>
+            </tr>
+            <tr>
+                <th>Président:</th>
+                <td th:text="${equipe.president}"></td>
+            </tr>
+            <tr>
+                <th>Statut:</th>
+                <td th:text="${equipe.status}"></td>
+            </tr>
+            <tr>
+                <th>Siège:</th>
+                <td th:text="${equipe.siege}"></td>
+            </tr>
+            <tr>
+                <th>Téléphone:</th>
+                <td th:text="${equipe.telephone}"></td>
+            </tr>
+            <tr>
+                <th>Site Web:</th>
+                <td th:text="${equipe.siteWeb}"></td>
+            </tr>
+        </table>
+        <button th:onclick="|window.location.href='/equipeupd?id=${equipe.id}'|">Modifier</button>
+
+    </div>
+</main>
+<div class="include__container" th:include="fragments/footer :: footer"></div>
 
 </body>
 </html>

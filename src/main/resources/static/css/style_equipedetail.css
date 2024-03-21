@@ -1,0 +1,37 @@
+.equipe__container {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.equipe__content {
+    background-color: #e5f5ff;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    max-width: 700px;
+    box-shadow: -1px 0px 11px -3px rgba(0, 0, 0, 0.64);
+}
+
+.equipe__container button {
+    margin-top: 1rem;
+}
+
+.equipe__content tr {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.equipe__content tr th {
+    text-align: start;
+    margin-right: 1rem;
+}

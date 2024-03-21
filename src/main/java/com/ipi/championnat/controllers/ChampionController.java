@@ -293,7 +293,7 @@ public class ChampionController {
         model.addAttribute("paysList", paysList);
         model.addAttribute("championat", champion);
 
-        return "championadd";
+        return "championupd";
     }
 
     @PostMapping(path = "championupd")
@@ -301,13 +301,13 @@ public class ChampionController {
         if (bindingResult.hasErrors()) {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
-            return "championadd";
+            return "championupd";
         }
         if (championat.getDateDebut().after(championat.getDateFin())) {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
             model.addAttribute("erreur", "Le date début est supérior à la date fin");
-            return "championadd";
+            return "championupd";
         }
         Pays selectPays = paysService.recupererPays(paysId);
 
@@ -315,7 +315,7 @@ public class ChampionController {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
             model.addAttribute("erreur", "vous devez sélectionner un pays");
-            return "championadd";
+            return "championupd";
         }
 
         championat.setPays(selectPays);
@@ -396,7 +396,7 @@ public class ChampionController {
 
         String nomFile = saveImage(file, "equipes/");
 
-        equipe.setLogo("equipes/" + nomFile);
+        equipe.setLogo(nomFile);
 
 
         equipeService.ajouterEquipe(equipe);
@@ -422,14 +422,14 @@ public class ChampionController {
         if (bindingResult.hasErrors()) {
             List<Stade> stades = stadeService.recupererStade();
             model.addAttribute("stades", stades);
-            return "equipeadd";
+            return "equipeupd";
         }
 
         if (equipeService.recupererEquipeByNom(equipe.getNom()) != null) {
             List<Stade> stades = stadeService.recupererStade();
             model.addAttribute("stades", stades);
             model.addAttribute("Error", "L’équipe existe déjà");
-            return "equipeadd";
+            return "equipeupd";
         }
 
         Stade stade = stadeService.recupererStade(stadeId);
@@ -445,7 +445,7 @@ public class ChampionController {
             nomFile = equipeAux.getLogo();
         }
 
-        equipe.setLogo("equipes/" + nomFile);
+        equipe.setLogo(nomFile);
 
         equipeService.ajouterEquipe(equipe);
 
