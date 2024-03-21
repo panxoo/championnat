@@ -21,26 +21,31 @@ public class MatchGame {
     @ManyToOne
     private Journee journee;
 
+    @ManyToOne
+    private Stade stade;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date DateMatchs;
 
     public MatchGame() {
     }
 
-    public MatchGame(Equipe equipe1, Equipe equipe2, Journee journee, Date dateMatchs) {
+    public MatchGame(Equipe equipe1, Equipe equipe2, Journee journee, Date dateMatchs, Stade stade) {
         this.equipe1 = equipe1;
         this.equipe2 = equipe2;
         this.journee = journee;
         this.DateMatchs = dateMatchs;
+        this.stade = stade;
     }
 
-    public MatchGame(int pointsEquipe1, int pointsEquipe2, Equipe equipe1, Equipe equipe2, Journee journee, Date dateMatchs) {
+    public MatchGame(int pointsEquipe1, int pointsEquipe2, Equipe equipe1, Equipe equipe2, Journee journee, Date dateMatchs, Stade stade) {
         this.pointsEquipe1 = pointsEquipe1;
         this.pointsEquipe2 = pointsEquipe2;
         this.equipe1 = equipe1;
         this.equipe2 = equipe2;
         this.journee = journee;
         this.DateMatchs = dateMatchs;
+        this.stade = stade;
 
     }
 
@@ -98,5 +103,13 @@ public class MatchGame {
 
     public void setDateMatchs(Date dateMatchs) {
         DateMatchs = dateMatchs;
+    }
+
+    public Stade getStade() {
+        return stade;
+    }
+
+    public void setStade(Stade stade) {
+        this.stade = stade;
     }
 }

@@ -201,6 +201,7 @@ public class ChampionController {
 
         model.addAttribute("championat", championat);
         model.addAttribute("dateMatchs", championat);
+        model.addAttribute()
 
         return "championtresultat";
     }
@@ -236,8 +237,7 @@ public class ChampionController {
 
     @GetMapping(path = "inscription")
     public String inscription(@ModelAttribute User user) {
-        if (this.session.getAttribute("user") == null)
-        {
+        if (this.session.getAttribute("user") == null) {
             return "redirect:/";
         }
 
@@ -292,7 +292,7 @@ public class ChampionController {
     }
 
     @PostMapping(path = "championadd")
-    public String championAdd(Model model, @Validated @ModelAttribute Championat championat, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("pays.id") Long paysId) {
+    public String championAdd(Model model, @Validated @ModelAttribute Championat championat, BindingResult bindingResult, @RequestParam("image") MultipartFile file) {
         if (bindingResult.hasErrors()) {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
@@ -301,20 +301,9 @@ public class ChampionController {
         if (championat.getDateDebut().after(championat.getDateFin())) {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
-            model.addAttribute("erreur", "Le date début est supérior à la date fin");
+            model.addAttribute("error", "Le date début est supérior à la date fin");
             return "championadd";
         }
-
-        Pays selectPays = paysService.recupererPays(paysId);
-
-        if (selectPays == null) {
-            List<Pays> paysList = this.paysService.recupererPays();
-            model.addAttribute("paysList", paysList);
-            model.addAttribute("erreur", "vous devez sélectionner un pays");
-            return "championadd";
-        }
-
-        championat.setPays(selectPays);
 
         String nomFile = saveImage(file, "championat/");
         championat.setLogo(nomFile);
@@ -338,7 +327,7 @@ public class ChampionController {
     }
 
     @PostMapping(path = "championupd")
-    public String championUpd(Model model, @Validated @ModelAttribute Championat championat, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("pays.id") Long paysId) {
+    public String championUpd(Model model, @Validated @ModelAttribute Championat championat, BindingResult bindingResult, @RequestParam("image") MultipartFile file) {
         if (bindingResult.hasErrors()) {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
@@ -347,19 +336,10 @@ public class ChampionController {
         if (championat.getDateDebut().after(championat.getDateFin())) {
             List<Pays> paysList = this.paysService.recupererPays();
             model.addAttribute("paysList", paysList);
-            model.addAttribute("erreur", "Le date début est supérior à la date fin");
-            return "championupd";
-        }
-        Pays selectPays = paysService.recupererPays(paysId);
-
-        if (selectPays == null) {
-            List<Pays> paysList = this.paysService.recupererPays();
-            model.addAttribute("paysList", paysList);
-            model.addAttribute("erreur", "vous devez sélectionner un pays");
+            model.addAttribute("error", "Le date début est supérior à la date fin");
             return "championupd";
         }
 
-        championat.setPays(selectPays);
 
         Championat championatOrg = this.championatService.recupererChampionat(championat.getId());
 
@@ -379,11 +359,16 @@ public class ChampionController {
 
 
     @GetMapping(path = "championatdetail")
-    public String championatDetail(Model model, @RequestParam long id) {
+    public String championatDetail(Model model, @RequestParam long id,  @ModelAttribute MatchGame matchgame) {
         Championat championat = championatService.recupererChampionat(id);
         List<MatchGame> matchGames = matchGameService.recupererMatchGame(championat);
+        List<Equipe> equipes = equipeService.recupererEquipes();
+        List<Stade> stades = stadeService.recupererStade();
+
         model.addAttribute("championat", championat);
         model.addAttribute("matchGames", matchGames);
+        model.addAttribute("equipes", equipes);
+        model.addAttribute("stades", stades);
 
         return "championatdetail";
     }
@@ -416,7 +401,7 @@ public class ChampionController {
     }
 
     @PostMapping(path = "equipeadd")
-    public String equipeAdd(Model model, @Validated @ModelAttribute Equipe equipe, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("stade.id") Long stadeId) {
+    public String equipeAdd(Model model, @Validated @ModelAttribute Equipe equipe, BindingResult bindingResult, @RequestParam("image") MultipartFile file) {
         System.out.println(equipe);
         if (bindingResult.hasErrors()) {
             List<Stade> stades = stadeService.recupererStade();
@@ -427,13 +412,13 @@ public class ChampionController {
         if (equipeService.recupererEquipeByNom(equipe.getNom()) != null) {
             List<Stade> stades = stadeService.recupererStade();
             model.addAttribute("stades", stades);
-            model.addAttribute("Error", "L’équipe existe déjà");
+            model.addAttribute("error", "L’équipe existe déjà");
             return "equipeadd";
         }
 
-        Stade stade = stadeService.recupererStade(stadeId);
+      //  Stade stade = stadeService.recupererStade(stadeId);
 
-        equipe.setStade(stade);
+        //equipe.setStade(stade);
 
         String nomFile = saveImage(file, "equipes/");
 
@@ -459,7 +444,7 @@ public class ChampionController {
     }
 
     @PostMapping(path = "equipeupd")
-    public String equipeUpd(Model model, @Validated @ModelAttribute Equipe equipe, BindingResult bindingResult, @RequestParam("image") MultipartFile file, @RequestParam("stade.id") Long stadeId) {
+    public String equipeUpd(Model model, @Validated @ModelAttribute Equipe equipe, BindingResult bindingResult, @RequestParam("image") MultipartFile file) {
         if (bindingResult.hasErrors()) {
             List<Stade> stades = stadeService.recupererStade();
             model.addAttribute("stades", stades);
@@ -473,13 +458,13 @@ public class ChampionController {
         if (equipeVal != null && equipeVal.getId() != equipeAux.getId()) {
             List<Stade> stades = stadeService.recupererStade();
             model.addAttribute("stades", stades);
-            model.addAttribute("Error", "L’équipe existe déjà");
+            model.addAttribute("error", "L’équipe existe déjà");
             return "equipeupd";
         }
 
-        Stade stade = stadeService.recupererStade(stadeId);
+      //  Stade stade = stadeService.recupererStade(stadeId);
 
-        equipe.setStade(stade);
+       // equipe.setStade(stade);
 
         String nomFile;
 

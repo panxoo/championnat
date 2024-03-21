@@ -35,6 +35,10 @@
                 <td><img alt="Logo de l'équipe" th:src="'/uploaded-images/' + ${equipe.logo}" width="30px"></td>
             </tr>
             <tr>
+                <th>Stade:</th>
+                <td th:text="${equipe.stade.nom}"></td>
+            </tr>
+            <tr>
                 <th>Nom de l'entraîneur:</th>
                 <td th:text="${equipe.nomEntraineur}"></td>
             </tr>

@@ -61,21 +61,35 @@
                 <caption><h3>Équipes</h3></caption>
                 <thead>
                 <tr>
-                    <th scope="col">Logo</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Pays</th>
-                    <th scope="col">Date Debut</th>
-                    <th scope="col">Date Fin</th>
-                    <th scope="col">Détails</th>
+                    <th scope="col">Date Matchs</th>
+                    <th scope="col">Journee</th>
+                    <th scope="col">Stade</th>
+                    <th scope="col">Equipe 1</th>
+                    <th scope="col">Points</th>
+                    <th scope="col">Equipe 2</th>
+                    <th scope="col">Points</th>
 
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="matchGame : ${matchGames}">
-                    <td><img class="imgtable" th:src="${ '/uploaded-images/' + matchGame.equipe1.logo }" width="30px">
+
+                    <td th:text="${#dates.format(matchGame.dateMatchs, 'yyyy-MM-dd') }"></td>
+                    <td th:text="${matchGame.journee.numero} + '°'"></td>
+                    <td th:text="${matchGame.stade.nom}"></td>
+
+                    <td>
+                        <img class="imgtable" th:src="${ '/uploaded-images/' + matchGame.equipe1.logo }" width="30px">
+                        <span th:text="${matchGame.equipe1.nom}"></span>
                     </td>
-                    <td><img class="imgtable" th:src="${ '/uploaded-images/' + matchGame.equipe2.logo }" width="30px">
+
+                    <td th:text="${matchGame.pointsEquipe1}"></td>
+                    <td>
+                        <img class="imgtable" th:src="${ '/uploaded-images/' + matchGame.equipe2.logo }" width="30px">
+                        <span th:text="${matchGame.equipe2.nom}"></span>
                     </td>
+                    <td th:text="${matchGame.pointsEquipe2}"></td>
+
                 </tr>
                 </tbody>
             </table>
@@ -83,6 +97,17 @@
             <button>Gérer les équipes</button>
         </div>
     </div>
+    <Br/>
+    <br/>
+    <br/>
+
+    <form accept-charset="utf-8" action="#" data-th-action="@{/journeeadd}" data-th-object="${matchgame}"
+          enctype="multipart/form-data"
+          method="post">
+
+
+        <input class="submitBtn" type="submit" value="Valider"/>
+    </form>
 
 </main>
 <div class="include__container" th:include="fragments/footer :: footer"></div>

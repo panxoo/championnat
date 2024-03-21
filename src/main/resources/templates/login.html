@@ -25,6 +25,13 @@
         </div>
         <input class="submitBtn" type="submit" value="Valider"/>
     </form>
+
+
+    <br/>
+    <br/>
+    <div th:if="${error != null && !error.isBlank()}">
+        Erreur : <span th:text="${error}"></span>
+    </div>
 </main>
 
 </body>
