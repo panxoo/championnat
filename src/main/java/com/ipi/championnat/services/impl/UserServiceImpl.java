@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User connexionUser(String pseudo, String mdp) {
-        return userDao.findUserByPseudoAndMdp(pseudo, mdp);
+    public User connexionUser(String login, String mdp) {
+        return userDao.findUserByLoginAndMdp(login, mdp);
     }
 
     @Override

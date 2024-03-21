@@ -11,7 +11,7 @@ public interface UserService {
 
     List<User> getUsers();
 
-    User connexionUser(String pseudo, String mdp);
+    User connexionUser(String login, String mdp);
 
     User getUser(String pseudo);
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
 
@@ -12,11 +13,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Le nom est obligatoire")
     private String nom;
+    @NotBlank(message = "Le prenom est obligatoire")
     private String prenom;
+    @NotBlank(message = "Le login est obligatoire")
     private String login;
+    @NotBlank(message = "Le ndp est obligatoire")
     private String mdp;
+    @NotBlank(message = "Le pseudo est obligatoire")
     private String pseudo;
+    @NotBlank(message = "Le email est obligatoire")
     private String email;
 
     public User() {
