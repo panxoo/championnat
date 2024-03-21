@@ -1,6 +1,7 @@
 package com.ipi.championnat.pojos;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ public class Equipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateCreation;
     private String logo;
     private String nomEntraineur;
