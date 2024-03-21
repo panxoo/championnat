@@ -3,7 +3,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     gap: 0.5rem;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     width: 100%;
 }
@@ -54,4 +54,15 @@
 .championat__content tr th {
     text-align: start;
     margin-right: 1rem;
+}
+
+.clickEquipeResult {
+    cursor: pointer;
+
+}
+
+.clickEquipeResult:hover {
+    font-weight: bolder;
+
+
 }

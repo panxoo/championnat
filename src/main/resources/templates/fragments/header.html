@@ -3,15 +3,17 @@
         <div>
             <a href="index">Acceuil</a>
             <div data-th-if="${session.user != null}">
-            <a href="listchampionat">Championats</a>
-            <a href="listequipe">Equipes</a>
+                <a href="listchampionat">Championats</a>
+                <a href="listequipe">Equipes</a>
             </div>
         </div>
 
 
-        <a data-th-if="${session.user == null}" href="login">Connexion</a>
-        <a data-th-if="${session.user != null}" href="logout">Logout</a>
-        <a data-th-if="${session.user != null}" href="inscription">Inscription</a>
+        <div>
+            <a data-th-if="${session.user != null}" href="inscription">Ajouter Admin</a>
+            <a data-th-if="${session.user == null}" href="login">Connexion</a>
+            <a data-th-if="${session.user != null}" href="logout">Logout</a>
 
+        </div>
     </nav>
 </header>
