@@ -15,12 +15,13 @@
           method="post">
         <div class="input__container">
             <label>Login *</label>
-            <input class="inputChamp" data-th-field="*{login}" placeholder="pseudo *" type="text"/>
+            <input class="inputChamp" data-th-field="*{login}" placeholder="pseudo *" type="text" value="CarlosLogin"/>
             <span class="error" data-th-errors="*{login}" data-th-if="${#fields.hasErrors('login')}"></span>
         </div>
         <div class="input__container">
             <label>Password *</label>
-            <input class="inputChamp" data-th-field="*{mdp}" placeholder="Password *" type="password"/>
+            <input class="inputChamp" data-th-field="*{mdp}" placeholder="Password *" type="password"
+                   v="passwordCarlos"/>
             <span class="error" data-th-errors="*{mdp}" data-th-if="${#fields.hasErrors('mdp')}"></span>
         </div>
         <input class="submitBtn" type="submit" value="Valider"/>

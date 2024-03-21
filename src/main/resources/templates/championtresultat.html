@@ -9,32 +9,39 @@
     <title>Title</title>
     <link href="css/style.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css" rel="stylesheet">
+    <link href="css/style_championadetail.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="include__container" th:include="fragments/header :: header"></div>
 <main>
-
-    <img th:src="${ '/uploaded-images/' +  championat.logo}"  width="30px"> <h1 th:text="${championat.nom}"></h1>
+    <img th:src="${ '/uploaded-images/' +  championat.logo}" width="30px">
+    <h1 th:text="${championat.nom}">Résultats</h1>
+    <button th:onclick="|window.location.href='/championatdetail?id=${championat.id}'|">
+        Détails
+    </button>
     <br/>
-    <br/>
-    <div th:each="datematch : ${dateMatchs}">
-        <h2 th:text="${#dates.format(datematch, 'yyyy-MM-dd')}"></h2>
-        <ul>
-            <div th:each="matchgame : ${matchGames}">
-            <li th:if="${datematch.equals(matchgame.dateMatchs)}">
+    <table class="championat__content" th:each="datematch : ${dateMatchs}">
+        <caption><h2>Résultats</h2></caption>
+        <caption><h4 th:text="${#dates.format(datematch, 'yyyy-MM-dd')}"></h4></caption>
+        <tbody th:each="matchgame : ${matchGames}">
+        <tr th:if="${datematch.equals(matchgame.dateMatchs)}">
+            <td class="clickEquipeResult"
+                th:onclick="|window.location.href='/equipedetail?id=${matchgame.equipe1.id}'|">
                 <span th:text="${matchgame.equipe1.nom}"></span>
                 <img th:src="${ '/uploaded-images/' + matchgame.equipe1.logo}" width="30">
+            </td>
+            <td>
                 <span th:text="${matchgame.pointsEquipe1 + '-' + matchgame.pointsEquipe2}"></span>
+            </td>
+            <td class="clickEquipeResult"
+                th:onclick="|window.location.href='/equipedetail?id=${matchgame.equipe2.id}'|">
                 <img th:src="${ '/uploaded-images/' + matchgame.equipe2.logo}" width="30">
                 <span th:text="${matchgame.equipe2.nom}"></span>
-            </li>
-            </div>
-        </ul>
-    <hr>
-    </div>
-    <br/><br/>
-
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </main>
-
+<div class="include__container" th:include="fragments/footer :: footer"></div>
 </body>
 </html>
