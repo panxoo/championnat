@@ -41,15 +41,26 @@
                     <option value="0">Aucun</option>
                     <option th:each="equipe : ${equipes}" th:text="${equipe.nom}" th:value="${equipe.id}"></option>
                 </select>
-                <span class="error" data-th-errors="*{equipe.id}" data-th-if="${#fields.hasErrors('equipe.id')}"></span>
+
             </div>
+            <div class="input__container">
+                <label>Points Equipe 1  *</label>
+                <input class="inputChamp" data-th-field="*{pointsEquipe1}" placeholder="Points Equipe 1 *" type="number"/>
+            </div>
+
+        </div>
+        <div class="championadd_rows-container">
             <div class="input__container">
                 <label>Equipe 2 *</label>
                 <select placeholder="Equipe 2 *" th:field="*{equipe2.id}">
                     <option value="0">Aucun</option>
                     <option th:each="equipe : ${equipes}" th:text="${equipe.nom}" th:value="${equipe.id}"></option>
                 </select>
-                <span class="error" data-th-errors="*{equipe.id}" data-th-if="${#fields.hasErrors('equipe.id')}"></span>
+
+            </div>
+            <div class="input__container">
+                <label>Points Equipe 2  *</label>
+                <input class="inputChamp" data-th-field="*{pointsEquipe2}" placeholder="Points Equipe 2 *" type="number"/>
             </div>
         </div>
 

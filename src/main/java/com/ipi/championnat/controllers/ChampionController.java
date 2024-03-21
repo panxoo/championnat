@@ -59,8 +59,8 @@ public class ChampionController {
         if (userService.getUsers().isEmpty()) {
             User user1 = new User("Lopez",
                     "Carlos",
-                    "CarlosLogin",
-                    "passwordCarlos",
+                    "Test",
+                    "Test",
                     "CarlosPseudo",
                     "carlos@email.com");
             User user2 = new User("Perez",
@@ -351,6 +351,9 @@ public class ChampionController {
 
     @GetMapping(path = "listchampionat")
     public String championates(Model model) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
         List<Championat> championats = championatService.recupererChampionat();
         model.addAttribute("championats", championats);
 
@@ -360,6 +363,9 @@ public class ChampionController {
 
     @GetMapping(path = "championadd")
     public String championAdd(Model model, @ModelAttribute Championat championat) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
 
         List<Pays> paysList = this.paysService.recupererPays();
         List<Equipe> equipes = this.equipeService.recupererEquipes();
@@ -397,6 +403,9 @@ public class ChampionController {
 
     @GetMapping(path = "championupd")
     public String championUpd(Model model, @RequestParam Long id) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
 
         List<Pays> paysList = this.paysService.recupererPays();
         Championat champion = this.championatService.recupererChampionat(id);
@@ -441,6 +450,9 @@ public class ChampionController {
 
     @GetMapping(path = "championatdetail")
     public String championatDetail(Model model, @RequestParam long id, @ModelAttribute MatchGame matchgame) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
         Championat championat = championatService.recupererChampionat(id);
         List<MatchGame> matchGames = matchGameService.recupererMatchGame(championat);
         List<Equipe> equipes = equipeService.recupererEquipes();
@@ -456,6 +468,9 @@ public class ChampionController {
 
     @GetMapping(path = "matchgameadd")
     public String matchgameadd(Model model, @ModelAttribute MatchGame matchGame, @RequestParam long id) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
         Championat championat = championatService.recupererChampionat(id);
         List<Equipe> equipes = equipeService.recupererEquipes();
         List<Stade> stades = stadeService.recupererStade();
@@ -469,17 +484,20 @@ public class ChampionController {
 
 
     @PostMapping(path = "matchgameadd")
-    public String journeeAdd(Model model, @RequestParam MatchGame matchGame, @RequestParam long id) {
+    public String journeeAdd(Model model, @ModelAttribute MatchGame matchGame, @RequestParam long championatid) {
         Journee journee = matchGame.getJournee();
-        Championat championat = championatService.recupererChampionat(id);
+        Championat championat = championatService.recupererChampionat(championatid);
         journee.setChampionat(championat);
         journeeService.ajouterJournee(matchGame.getJournee());
         matchGameService.ajouterMatchGame(matchGame);
-        return "championatdetail";
+        return "redirect:/championatdetail?id=" + championat.getId();
     }
 
     @GetMapping(path = "listequipe")
     public String listEquipe(Model model) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
         List<Equipe> equipes = equipeService.recupererEquipes();
 
         model.addAttribute("equipes", equipes);
@@ -490,6 +508,9 @@ public class ChampionController {
 
     @GetMapping(path = "equipeadd")
     public String equipeAdd(Model model, @ModelAttribute Equipe equipe) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
         List<Stade> stades = stadeService.recupererStade();
         model.addAttribute("stades", stades);
 
@@ -530,6 +551,9 @@ public class ChampionController {
 
     @GetMapping(path = "equipeupd")
     public String equipeUpd(Model model, @RequestParam Long id) {
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
         List<Stade> stades = stadeService.recupererStade();
         Equipe equipe = equipeService.recupererEquipe(id);
 
@@ -579,7 +603,9 @@ public class ChampionController {
 
     @GetMapping(path = "equipedetail")
     public String equipeDetail(Model model, @RequestParam Long id) {
-
+        if (this.session.getAttribute("user") == null) {
+            return "redirect:/";
+        }
         Equipe equipe = equipeService.recupererEquipe(id);
 
         model.addAttribute("equipe", equipe);
