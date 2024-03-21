@@ -18,43 +18,84 @@
 <div class="include__container" th:include="fragments/header :: header"></div>
 <main>
     <h1 th:text="'Championat : ' + ${championat.nom}"></h1>
-    <h4>Vous pouvez éditer ce championat que si vous êtes connecté.
-    </h4>
-    <div class="championat__container">
-        <table class="championat__content">
-            <caption><h3>Détails du Championnat</h3></caption>
-            <tr>
-                <th><strong>Nom:</strong></th>
-                <td><p th:text="${championat.nom}"></p></td>
-            </tr>
-            <tr>
-                <th><strong>Logo:</strong></th>
-                <td><img alt="Logo du championnat" th:src="'/uploaded-images/' + ${championat.logo}" width="30px"></td>
-            </tr>
-            <tr>
-                <th><strong>Date de début:</strong></th>
-                <td><p th:text="${#dates.format(championat.dateDebut, 'yyyy-MM-dd')}"></p></td>
-            </tr>
-            <tr>
-                <th><strong>Date de fin:</strong></th>
-                <td><p th:text="${#dates.format(championat.dateFin, 'yyyy-MM-dd')}"></p></td>
-            </tr>
-            <tr>
-                <th><strong>Point Gagné:</strong></th>
-                <td><p th:text="${championat.pointGagne}"></p></td>
-            </tr>
-            <tr>
-                <th><strong>Point Perdu:</strong></th>
-                <td><p th:text="${championat.pointPerdu}"></p></td>
-            </tr>
-            <tr>
-                <th><strong>Point Nul:</strong></th>
-                <td><p th:text="${championat.pointNul}"></p></td>
-            </tr>
-        </table>
-        <button th:onclick="|window.location.href='/championupd?id=${championat.id}'|">Modifier</button>
 
+    <div class="championat__container">
+        <div class="championat__tablecontainer">
+            <h4>Vous pouvez éditer ce championat que si vous êtes connecté.
+            </h4>
+            <table class="championat__content">
+                <caption><h3>Détails du Championnat</h3></caption>
+                <tr>
+                    <th><strong>Nom:</strong></th>
+                    <td><p th:text="${championat.nom}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Logo:</strong></th>
+                    <td><img alt="Logo du championnat" th:src="'/uploaded-images/' + ${championat.logo}" width="30px">
+                    </td>
+                </tr>
+                <tr>
+                    <th><strong>Date de début:</strong></th>
+                    <td><p th:text="${#dates.format(championat.dateDebut, 'yyyy-MM-dd')}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Date de fin:</strong></th>
+                    <td><p th:text="${#dates.format(championat.dateFin, 'yyyy-MM-dd')}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Point Gagné:</strong></th>
+                    <td><p th:text="${championat.pointGagne}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Point Perdu:</strong></th>
+                    <td><p th:text="${championat.pointPerdu}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Point Nul:</strong></th>
+                    <td><p th:text="${championat.pointNul}"></p></td>
+                </tr>
+            </table>
+            <button th:onclick="|window.location.href='/championupd?id=${championat.id}'|">Modifier</button>
+        </div>
+        <div>
+            <h4>Équipes</h4>
+            <table class="championat__content">
+                <caption><h3>Détails du Championnat</h3></caption>
+                <tr>
+                    <th><strong>Nom:</strong></th>
+                    <td><p th:text="${championat.nom}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Logo:</strong></th>
+                    <td><img alt="Logo du championnat" th:src="'/uploaded-images/' + ${championat.logo}" width="30px">
+                    </td>
+                </tr>
+                <tr>
+                    <th><strong>Date de début:</strong></th>
+                    <td><p th:text="${#dates.format(championat.dateDebut, 'yyyy-MM-dd')}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Date de fin:</strong></th>
+                    <td><p th:text="${#dates.format(championat.dateFin, 'yyyy-MM-dd')}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Point Gagné:</strong></th>
+                    <td><p th:text="${championat.pointGagne}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Point Perdu:</strong></th>
+                    <td><p th:text="${championat.pointPerdu}"></p></td>
+                </tr>
+                <tr>
+                    <th><strong>Point Nul:</strong></th>
+                    <td><p th:text="${championat.pointNul}"></p></td>
+                </tr>
+            </table>
+
+            <button>Gérer les équipes</button>
+        </div>
     </div>
+
 </main>
 <div class="include__container" th:include="fragments/footer :: footer"></div>
 
