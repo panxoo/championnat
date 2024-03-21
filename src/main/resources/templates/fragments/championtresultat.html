@@ -13,18 +13,11 @@
 <body>
 <div class="include__container" th:include="fragments/header :: header"></div>
 <main>
-    <div th:each="pays : ${payslist}">
-        <h2 th:text="${pays.nom}"></h2>
-        <ul>
-            <li th:each="championat : ${pays.championats}">
-                    <a data-th-href="@{'championtresultat?id=' + ${championat.id}}">
-                        <i th:class="${pays.logo}"></i>
-                        <span th:text="${championat.nom}"></span>
-                    </a>
-            </li>
-        </ul>
-    </div> <br/><br/>
+    <h1 th:text="${championat.nom }"></h1>
+
+
 
 </main>
+
 </body>
 </html>

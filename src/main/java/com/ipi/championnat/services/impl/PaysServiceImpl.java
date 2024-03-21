@@ -29,4 +29,7 @@ public class PaysServiceImpl implements PaysService {
     public List<Pays> recupererPays(){
         return paysDao.findAll();
     }
+
+    @Override
+    public List<Pays> recupererPaysAvecChampionat(){return paysDao.findPaysWithChampionats();}
 }

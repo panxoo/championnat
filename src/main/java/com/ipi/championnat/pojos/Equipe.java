@@ -1,6 +1,7 @@
 package com.ipi.championnat.pojos;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -11,15 +12,20 @@ public class Equipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Le nom est obligatoire")
     private String nom;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateCreation;
     private String logo;
+    @NotBlank(message = "Le nom d'entraineur est obligatoire")
     private String nomEntraineur;
+    @NotBlank(message = "Le nom de president est obligatoire")
     private String president;
     private String status;
     private String siege;
+    @NotBlank(message = "Le telephone est obligatoire")
     private String telephone;
+    @NotBlank(message = "Le site web est obligatoire")
     private String siteWeb;
     @ManyToOne
     private Stade stade;

@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface MatchGameDao extends JpaRepository<MatchGame, Long> {
     public List<MatchGame> findMatchGamesByJourneeChampionat(Championat championat);
+
 }

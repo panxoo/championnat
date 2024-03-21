@@ -1,6 +1,9 @@
 package com.ipi.championnat.pojos;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Entity
 public class MatchGame {
@@ -9,8 +12,8 @@ public class MatchGame {
     private Long id;
     private int pointsEquipe1;
     private int pointsEquipe2;
-   @ManyToOne
-   @JoinColumn
+    @ManyToOne
+    @JoinColumn
     private Equipe equipe1;
     @ManyToOne
     @JoinColumn
@@ -18,20 +21,27 @@ public class MatchGame {
     @ManyToOne
     private Journee journee;
 
-    public MatchGame(){}
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date DateMatchs;
 
-    public MatchGame(Equipe equipe1, Equipe equipe2, Journee journee) {
+    public MatchGame() {
+    }
+
+    public MatchGame(Equipe equipe1, Equipe equipe2, Journee journee, Date dateMatchs) {
         this.equipe1 = equipe1;
         this.equipe2 = equipe2;
         this.journee = journee;
+        this.DateMatchs = dateMatchs;
     }
 
-    public MatchGame(int pointsEquipe1, int pointsEquipe2, Equipe equipe1, Equipe equipe2, Journee journee) {
+    public MatchGame(int pointsEquipe1, int pointsEquipe2, Equipe equipe1, Equipe equipe2, Journee journee, Date dateMatchs) {
         this.pointsEquipe1 = pointsEquipe1;
         this.pointsEquipe2 = pointsEquipe2;
         this.equipe1 = equipe1;
         this.equipe2 = equipe2;
         this.journee = journee;
+        this.DateMatchs = dateMatchs;
+
     }
 
     public Long getId() {
@@ -80,5 +90,13 @@ public class MatchGame {
 
     public void setJournee(Journee journee) {
         this.journee = journee;
+    }
+
+    public Date getDateMatchs() {
+        return DateMatchs;
+    }
+
+    public void setDateMatchs(Date dateMatchs) {
+        DateMatchs = dateMatchs;
     }
 }

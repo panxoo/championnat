@@ -20,8 +20,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 public class ChampionController {
@@ -171,9 +173,34 @@ public class ChampionController {
 
 
     @GetMapping(path = {"/", "/index"})
-    public String index() {
+    public String index(Model model) {
+
+        List<Championat> championats = this.championatService.recupererChampionat();
+        List<Pays> paysList= this.paysService.recupererPaysAvecChampionat();
+
+        model.addAttribute("championats", championats);
+        model.addAttribute("payslist", paysList);
+
         return "index";
     }
+
+    @GetMapping(path = "championtresultat")
+    public String championtresultat(Model model, @RequestParam Long id){
+
+        Championat championat = this.championatService.recupererChampionat(id);
+        List<MatchGame> matchGames = this.matchGameService.recupererMatchGame(championat);
+
+        List<Date> distinctDateMatchs = matchGames.stream()
+                                        .map(MatchGame::getDateMatchs)
+                                        .distinct()
+                                        .collect(Collectors.toList());
+
+
+        model.addAttribute("championat", championat);
+
+        return "championtresultat";
+    }
+
 
     @GetMapping(path = "login")
     public String login(@ModelAttribute Connexion connexion) {
@@ -409,12 +436,12 @@ public class ChampionController {
     @GetMapping(path = "equipeupd")
     public String equipeUpd(Model model, @RequestParam Long id) {
         List<Stade> stades = stadeService.recupererStade();
-        Equipe equipe1 = equipeService.recupererEquipe(id);
+        Equipe equipe = equipeService.recupererEquipe(id);
 
         model.addAttribute("stades", stades);
-        model.addAttribute("equipe", equipe1);
+        model.addAttribute("equipe", equipe);
 
-        return "equipeadd";
+        return "equipeupd";
     }
 
     @PostMapping(path = "equipeupd")
@@ -425,7 +452,11 @@ public class ChampionController {
             return "equipeupd";
         }
 
-        if (equipeService.recupererEquipeByNom(equipe.getNom()) != null) {
+
+        Equipe equipeAux = equipeService.recupererEquipe(equipe.getId());
+        Equipe equipeVal = equipeService.recupererEquipeByNom(equipe.getNom());
+
+        if (equipeVal != null && equipeVal.getId() != equipeAux.getId()) {
             List<Stade> stades = stadeService.recupererStade();
             model.addAttribute("stades", stades);
             model.addAttribute("Error", "L’équipe existe déjà");
@@ -436,7 +467,6 @@ public class ChampionController {
 
         equipe.setStade(stade);
 
-        Equipe equipeAux = equipeService.recupererEquipe(equipe.getId());
         String nomFile;
 
         if (!file.isEmpty()) {
@@ -461,6 +491,7 @@ public class ChampionController {
 
         return "equipedetail";
     }
+
 
 
 }

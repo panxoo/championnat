@@ -16,7 +16,7 @@
     <h4>Veuillez remplir le formulaire ci-dessous pour modifier cet Équipe à notre base de données. Les
         champs marqués d'un astérisque (*) sont obligatoires.</h4>
     <form accept-charset="utf-8" action="#" data-th-action="@{/equipeupd}" data-th-object="${equipe}"
-          enctype="multipart/form-data">
+          enctype="multipart/form-data" method="post">
         <input data-th-field="*{id}" style="display: none"/>
         <div class="input__container">
             <label>Nom *</label>

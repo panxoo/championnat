@@ -10,4 +10,6 @@ public interface PaysService {
 
     Pays recupererPays(Long idpays);
     List<Pays> recupererPays();
+
+    List<Pays> recupererPaysAvecChampionat();
 }
