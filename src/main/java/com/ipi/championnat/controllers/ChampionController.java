@@ -378,7 +378,7 @@ public class ChampionController {
 
 
     @GetMapping(path = "championatdetail")
-    public String championatDetail(Model model, @RequestParam long id,  @ModelAttribute MatchGame matchgame) {
+    public String championatDetail(Model model, @RequestParam long id, @ModelAttribute MatchGame matchgame) {
         Championat championat = championatService.recupererChampionat(id);
         List<MatchGame> matchGames = matchGameService.recupererMatchGame(championat);
         List<Equipe> equipes = equipeService.recupererEquipes();
@@ -451,7 +451,7 @@ public class ChampionController {
             return "equipeadd";
         }
 
-      //  Stade stade = stadeService.recupererStade(stadeId);
+        //  Stade stade = stadeService.recupererStade(stadeId);
 
         //equipe.setStade(stade);
 
@@ -497,9 +497,9 @@ public class ChampionController {
             return "equipeupd";
         }
 
-      //  Stade stade = stadeService.recupererStade(stadeId);
+        //  Stade stade = stadeService.recupererStade(stadeId);
 
-       // equipe.setStade(stade);
+        // equipe.setStade(stade);
 
         String nomFile;
 
