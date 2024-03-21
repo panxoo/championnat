@@ -90,7 +90,7 @@ form {
     gap: 2rem;
     align-items: center;
     justify-content: center;
-    width: 700px;
+    max-width: 700px;
     box-shadow: -1px 0px 11px -3px rgba(0, 0, 0, 0.64);
 }
 
@@ -121,6 +121,10 @@ input[type=date], input[type=file] {
     cursor: pointer;
 }
 
+input[type=date] {
+    cursor: text;
+}
+
 select {
     width: 100%;
     color: #100d0d;
@@ -143,7 +147,7 @@ input[placeholder], input[type=file] {
 
 }
 
-input[type=submit] {
+input[type=submit], button {
     width: max-content;
     padding: 0.5rem;
     background-color: #3d7ca2;
@@ -151,13 +155,14 @@ input[type=submit] {
     box-shadow: -1px 0px 11px -3px rgba(0, 0, 0, 0.64);
     border: none !important;
     cursor: pointer;
+    border-radius: 5px;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover, button:hover {
     color: #0d100d;
 }
 
-span {
+.error {
     color: red;
 }
 
