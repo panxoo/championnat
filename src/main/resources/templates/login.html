@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
+<div class="include__container" th:include="fragments/header :: header"></div>
+<main>
+
+    <h1>login</h1>
+
+    <form accept-charset="utf-8" action="#" data-th-action="@{/login}" data-th-object="${connexion}"
+          method="post">
+        <div class="input__container">
+            <label>Login *</label>
+            <input class="inputChamp" data-th-field="*{login}" placeholder="pseudo *" type="text"/>
+            <span class="error" data-th-errors="*{login}" data-th-if="${#fields.hasErrors('login')}"></span>
+        </div>
+        <div class="input__container">
+            <label>Password *</label>
+            <input class="inputChamp" data-th-field="*{mdp}" placeholder="Password *" type="password"/>
+            <span class="error" data-th-errors="*{mdp}" data-th-if="${#fields.hasErrors('mdp')}"></span>
+        </div>
+        <input class="submitBtn" type="submit" value="Valider"/>
+    </form>
+</main>
 
 </body>
 </html>

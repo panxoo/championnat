@@ -37,7 +37,10 @@ public class ChampionController {
     private StadeService stadeService;
     private HttpSession session;
 
-    public ChampionController(UserService userService, ChampionatService championatService, EquipeService equipeService, JourneeService journeeService, MatchGameService matchGameService, PaysService paysService, StadeService stadeService) {
+    public ChampionController(UserService userService, ChampionatService championatService,
+                              EquipeService equipeService, JourneeService journeeService,
+                              MatchGameService matchGameService, PaysService paysService,
+                              StadeService stadeService, HttpSession session) {
         super();
         this.userService = userService;
         this.championatService = championatService;
@@ -197,6 +200,7 @@ public class ChampionController {
 
 
         model.addAttribute("championat", championat);
+        model.addAttribute("dateMatchs", championat);
 
         return "championtresultat";
     }
@@ -213,7 +217,7 @@ public class ChampionController {
             return "login";
         }
 
-        User user = userService.connexionUser(connexion.getPseudo(), connexion.getMdp());
+        User user = userService.connexionUser(connexion.getLogin(), connexion.getMdp());
 
         if (user == null) {
             model.addAttribute("error", "le nom d'utilisateur ou le mot de passe est incorrect");
@@ -221,11 +225,22 @@ public class ChampionController {
         }
         session.setAttribute("user", user);
 
-        return "redirect:/listchampionat";
+        return "redirect:/";
+    }
+
+    @GetMapping(path = "logout")
+    public String logout() {
+        session.removeAttribute("user");
+        return "redirect:/";
     }
 
     @GetMapping(path = "inscription")
     public String inscription(@ModelAttribute User user) {
+        if (this.session.getAttribute("user") == null)
+        {
+            return "redirect:/";
+        }
+
         return "inscription";
     }
 
@@ -244,9 +259,8 @@ public class ChampionController {
 
         userService.addUser(user);
 
-        session.setAttribute("user", user);
 
-        return "redirect:/listchampionat";
+        return "redirect:/";
 
     }
 

@@ -1,15 +1,15 @@
 package com.ipi.championnat.pojos;
 
 public class Connexion {
-    private String pseudo;
+    private String login;
     private String mdp;
 
-    public String getPseudo() {
-        return pseudo;
+    public String getLogin() {
+        return login;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getMdp() {

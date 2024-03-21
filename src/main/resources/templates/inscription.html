@@ -3,8 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
+<div class="include__container" th:include="fragments/header :: header"></div>
+<main>
+    <h1>Inscription</h1>
 
+    <form accept-charset="utf-8" action="#" data-th-action="@{/inscription}" data-th-object="${user}"
+          method="post">
+        <div class="input__container">
+            <label>Nom *</label>
+            <input class="inputChamp" data-th-field="*{nom}" placeholder="pseudo *" type="text"/>
+            <span class="error" data-th-errors="*{nom}" data-th-if="${#fields.hasErrors('nom')}"></span>
+        </div>
+        <div class="input__container">
+            <label>PreNom *</label>
+            <input class="inputChamp" data-th-field="*{prenom}" placeholder="prenom *" type="text"/>
+            <span class="error" data-th-errors="*{prenom}" data-th-if="${#fields.hasErrors('prenom')}"></span>
+        </div>
+        <div class="input__container">
+            <label>Login *</label>
+            <input class="inputChamp" data-th-field="*{login}" placeholder="Login *" type="test"/>
+            <span class="error" data-th-errors="*{login}" data-th-if="${#fields.hasErrors('login')}"></span>
+        </div>
+        <div class="input__container">
+            <label>Password *</label>
+            <input class="inputChamp" data-th-field="*{mdp}" placeholder="Password *" type="password"/>
+            <span class="error" data-th-errors="*{mdp}" data-th-if="${#fields.hasErrors('mdp')}"></span>
+        </div>
+        <div class="input__container">
+            <label>Email *</label>
+            <input class="inputChamp" data-th-field="*{email}" placeholder="email *" type="text"/>
+            <span class="error" data-th-errors="*{email}" data-th-if="${#fields.hasErrors('email')}"></span>
+        </div>
+        <div class="input__container">
+            <label>Pseudo *</label>
+            <input class="inputChamp" data-th-field="*{pseudo}" placeholder="pseudo *" type="text"/>
+            <span class="error" data-th-errors="*{pseudo}" data-th-if="${#fields.hasErrors('pseudo')}"></span>
+        </div>
+        <input class="submitBtn" type="submit" value="Valider"/>
+    </form>
+</main>
 </body>
 </html>

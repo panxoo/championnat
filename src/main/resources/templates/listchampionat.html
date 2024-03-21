@@ -19,38 +19,36 @@
         champs marqués d'un astérisque (*) sont obligatoires.</h4>
 
     <table>
-    <thead>
-    <tr>
-        <th scope="col">Logo</th>
-        <th scope="col">Nom</th>
-        <th scope="col">Pays</th>
-        <th scope="col">Date Debut</th>
-        <th scope="col">Date Fin</th>
-        <th scope="col">Détails</th>
+        <thead>
+        <tr>
+            <th scope="col">Logo</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Pays</th>
+            <th scope="col">Date Debut</th>
+            <th scope="col">Date Fin</th>
+            <th scope="col">Détails</th>
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="championat : ${championats}">
-        <td><img class="imgtable" th:src="${ '/uploaded-images/' + championat.logo }" width="30px"></td>
-        <td data-th-text="${ championat.nom }"></td>
-        <td><i th:class="${championat.pays.logo}"></i></td>
-        <td data-th-text="${ #dates.format(championat.dateDebut, 'yyyy-MM-dd') }"></td>
-        <td data-th-text="${ #dates.format(championat.dateFin, 'yyyy-MM-dd') }"></td>
-        <td>
-            <button th:onclick="|window.location.href='/championatdetail?id=${championat.id}'|">
-                Détails
-            </button>
-        </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="championat : ${championats}">
+            <td><img class="imgtable" th:src="${ '/uploaded-images/' + championat.logo }" width="30px"></td>
+            <td data-th-text="${ championat.nom }"></td>
+            <td><i th:class="${championat.pays.logo}"></i></td>
+            <td data-th-text="${ #dates.format(championat.dateDebut, 'yyyy-MM-dd') }"></td>
+            <td data-th-text="${ #dates.format(championat.dateFin, 'yyyy-MM-dd') }"></td>
+            <td>
+                <button th:onclick="|window.location.href='/championatdetail?id=${championat.id}'|">
+                    Détails
+                </button>
+            </td>
 
-    </tr>
-    </tbody>
-</table>
+        </tr>
+        </tbody>
+    </table>
 
 </main>
 <div class="include__container" th:include="fragments/footer :: footer"></div>
 
-</body>
-</html>
 </body>
 </html>
