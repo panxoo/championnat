@@ -95,8 +95,7 @@
                 </tr>
                 </tbody>
             </table>
-
-            <button data-th-if="${session.user != null}">Gérer les équipes</button>
+            <button th:onclick="|window.location.href='/matchgameadd?id=${championat.id}'|" data-th-if="${session.user != null}">Gérer les équipes</button>
         </div>
     </div>
     <br/>
