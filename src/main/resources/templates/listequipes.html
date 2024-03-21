@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
             name="viewport"
     />
-    <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css">
-    <link rel="stylesheet" href="ccs/style.css" />
+    <title>Tous les Équipes</title>
+    <link href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
 
 <div class="include__container" th:include="fragments/header :: header"></div>
 <main>
-    <h1>Complétez ce formulaire pour modifier ce Championat</h1>
-    <h4>Veuillez remplir le formulaire ci-dessous pour modifier ce championnat à notre base de données. Les
-        champs marqués d'un astérisque (*) sont obligatoires.</h4>
-
+    <h1>Équipe</h1>
+    <h4>Vous trouverez dans cette page la liste de tous les Équipes.</h4>
     <table>
         <thead>
         <tr>
@@ -31,14 +29,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="championat : ${championats}">
-            <td><img class="imgtable" th:src="${ '/uploaded-images/' + championat.logo }" width="30px"></td>
-            <td data-th-text="${ championat.nom }"></td>
-            <td><i th:class="${championat.pays.logo}"></i></td>
-            <td data-th-text="${ #dates.format(championat.dateDebut, 'yyyy-MM-dd') }"></td>
-            <td data-th-text="${ #dates.format(championat.dateFin, 'yyyy-MM-dd') }"></td>
+        <tr th:each="equipe : ${equipes}">
+            <td><img class="imgtable" th:src="${ '/uploaded-images/' + equipe.logo }" width="30px"></td>
+            <td data-th-text="${ equipe.nom }"></td>
             <td>
-                <button th:onclick="|window.location.href='/championatdetail?id=${championat.id}'|">
+                <button th:onclick="|window.location.href='/equipedetail?id=${equipe.id}'|">
                     Détails
                 </button>
             </td>
