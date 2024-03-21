@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,6 +80,10 @@ public class ChampionController {
 
         if (stadeService.recupererStade().isEmpty()) {
             saveStades();
+        }
+
+        if (matchGameService.recupererMatchGame().isEmpty()){
+            dataTest();
         }
 
     }
@@ -150,6 +156,63 @@ public class ChampionController {
         stadeService.ajouterStades(stades);
     }
 
+
+    private void dataTest() {
+
+        List<Pays> pays = paysService.recupererPays();
+        List<Stade> stades = stadeService.recupererStade();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Date dateDebut;
+        Date dateFin;
+        Date dateCreation;
+        Date dateMatch1;
+        Date dateMatch2;
+
+        try {
+            dateDebut = sdf.parse("2022/01/02");
+            dateFin = sdf.parse("2022/06/02");
+            dateCreation = sdf.parse("2020/02/22");
+            dateMatch1 = sdf.parse("2022/02/22");
+            dateMatch2 = sdf.parse("2022/04/22");
+
+        } catch (ParseException e) {
+            System.out.println("Erreur convertion de date: " + e.getMessage());
+            dateDebut = new Date();
+            dateFin = new Date();
+            dateCreation = new Date();
+            dateMatch1 = new Date();
+            dateMatch2 = new Date();
+        }
+
+        Championat championat = new Championat("Liga 2", "championat/ipi.jpg", dateDebut, dateFin, 5, -2, 1, "", pays.get(0));
+
+        championatService.ajouterChampionat(championat);
+
+        Equipe equipe = new Equipe("Lyon1", dateCreation, "", "Julian", "julian", "Activo", "3", "0023 33 21123 21", "www.LyonGame.fr", stades.get(0));
+        Equipe equipe2 = new Equipe("Barcelona1", dateCreation, "", "Pablo", "Carlos", "Activo", "3", "0023 33 21123 21", "www.BarcelonaGame.fr", stades.get(1));
+
+
+        equipeService.ajouterEquipe(equipe);
+        equipeService.ajouterEquipe(equipe2);
+
+        Journee journee1 = new Journee(1, championat);
+        Journee journee2 = new Journee(2, championat);
+        Journee journee3 = new Journee(3, championat);
+        Journee journee4 = new Journee(4, championat);
+
+        journeeService.ajouterJournee(journee1);
+        journeeService.ajouterJournee(journee2);
+        journeeService.ajouterJournee(journee3);
+        journeeService.ajouterJournee(journee4);
+
+        matchGameService.ajouterMatchGame(new MatchGame(1, 4, equipe, equipe2, journee1, dateMatch1, stades.get(0)));
+        matchGameService.ajouterMatchGame(new MatchGame(3, 1, equipe2, equipe, journee1, dateMatch1, stades.get(0)));
+        matchGameService.ajouterMatchGame(new MatchGame(0, 4, equipe2, equipe, journee1, dateMatch2, stades.get(0)));
+        matchGameService.ajouterMatchGame(new MatchGame(2, 0, equipe, equipe2, journee1, dateMatch2, stades.get(0)));
+
+    }
+
+
     private String saveImage(MultipartFile file, String subpath) {
         if (!file.isEmpty()) {
             try {
@@ -201,7 +264,7 @@ public class ChampionController {
 
         model.addAttribute("championat", championat);
         model.addAttribute("matchGames", matchGames);
-        model.addAttribute("dateMatchs",distinctDateMatchs);
+        model.addAttribute("dateMatchs", distinctDateMatchs);
 
         return "championtresultat";
     }
@@ -213,9 +276,8 @@ public class ChampionController {
         List<MatchGame> matchGames = this.matchGameService.recupererMatchGame(championat);
 
 
-
         model.addAttribute("championat", championat);
-        model.addAttribute("matchGames", matchGames) ;
+        model.addAttribute("matchGames", matchGames);
 
         return "championtresultat";
     }
@@ -378,7 +440,7 @@ public class ChampionController {
 
 
     @GetMapping(path = "championatdetail")
-    public String championatDetail(Model model, @RequestParam long id,  @ModelAttribute MatchGame matchgame) {
+    public String championatDetail(Model model, @RequestParam long id, @ModelAttribute MatchGame matchgame) {
         Championat championat = championatService.recupererChampionat(id);
         List<MatchGame> matchGames = matchGameService.recupererMatchGame(championat);
         List<Equipe> equipes = equipeService.recupererEquipes();
@@ -393,9 +455,9 @@ public class ChampionController {
     }
 
     @GetMapping(path = "matchgameadd")
-    public String matchgameadd(Model model, @RequestParam long id,  @ModelAttribute MatchGame matchgame) {
+    public String matchgameadd(Model model, @ModelAttribute MatchGame matchGame, @RequestParam long id) {
         Championat championat = championatService.recupererChampionat(id);
-       List<Equipe> equipes = equipeService.recupererEquipes();
+        List<Equipe> equipes = equipeService.recupererEquipes();
         List<Stade> stades = stadeService.recupererStade();
 
         model.addAttribute("championat", championat);
@@ -404,7 +466,6 @@ public class ChampionController {
 
         return "matchgameadd";
     }
-
 
 
     @PostMapping(path = "matchgameadd")
@@ -451,7 +512,7 @@ public class ChampionController {
             return "equipeadd";
         }
 
-      //  Stade stade = stadeService.recupererStade(stadeId);
+        //  Stade stade = stadeService.recupererStade(stadeId);
 
         //equipe.setStade(stade);
 
@@ -497,9 +558,9 @@ public class ChampionController {
             return "equipeupd";
         }
 
-      //  Stade stade = stadeService.recupererStade(stadeId);
+        //  Stade stade = stadeService.recupererStade(stadeId);
 
-       // equipe.setStade(stade);
+        // equipe.setStade(stade);
 
         String nomFile;
 
@@ -525,8 +586,6 @@ public class ChampionController {
 
         return "equipedetail";
     }
-
-
 
 
 }
