@@ -10,4 +10,6 @@ public interface EquipeService {
     Equipe recupererEquipe(Long idequipe);
     List<Equipe> recupererEquipes();
     Equipe recupererEquipeByNom(String nom);
+
+    List<Equipe> findAllById(List<Long> ids);
 }

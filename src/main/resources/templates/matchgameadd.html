@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="include__container" th:include="fragments/header :: header"></div>
+<main>
+    <form accept-charset="utf-8" action="#" data-th-action="@{/matchgameadd}" data-th-object="${matchgame}"
+          enctype="multipart/form-data"
+          method="post">
+
+        <input type="hidden" name="championatid" th:value="${championat.id}" />
+
+
+        <div class="input__container">
+            <label>Date Match *</label>
+            <input class="inputChamp" data-th-field="*{DateMatchs}" placeholder="Date Match *" type="date"/>
+            <span class="error" data-th-errors="*{DateMatchs}" data-th-if="${#fields.hasErrors('DateMatchs')}"></span>
+        </div>
+        <div class="input__container">
+            <label>Journee Numero *</label>
+            <input class="inputChamp" data-th-field="*{journee.numero}" placeholder="journee numero*" type="number"/>
+            <span class="error" data-th-errors="*{journee.numero}" data-th-if="${#fields.hasErrors('journee.numero')}"></span>
+        </div>
+        <div class="input__container">
+            <label>Stade *</label>
+            <select placeholder="Stade *" th:field="*{stade.id}">
+                <option value="0">Aucun</option>
+                <option th:each="stade : ${stades}" th:text="${stade.nom}" th:value="${stade.id}"></option>
+            </select>
+            <span class="error" data-th-errors="*{stade.id}" data-th-if="${#fields.hasErrors('stade.id')}"></span>
+        </div>
+        <div class="championadd_rows-container">
+
+            <div class="input__container">
+                <label>Equipe 1 *</label>
+                <select placeholder="Equipe 1 *" th:field="*{equipe1.id}">
+                    <option value="0">Aucun</option>
+                    <option th:each="equipe : ${equipes}" th:text="${equipe.nom}" th:value="${equipe.id}"></option>
+                </select>
+                <span class="error" data-th-errors="*{equipe.id}" data-th-if="${#fields.hasErrors('equipe.id')}"></span>
+            </div>
+            <div class="input__container">
+                <label>Equipe 2 *</label>
+                <select placeholder="Equipe 2 *" th:field="*{equipe2.id}">
+                    <option value="0">Aucun</option>
+                    <option th:each="equipe : ${equipes}" th:text="${equipe.nom}" th:value="${equipe.id}"></option>
+                </select>
+                <span class="error" data-th-errors="*{equipe.id}" data-th-if="${#fields.hasErrors('equipe.id')}"></span>
+            </div>
+        </div>
+
+
+        <input class="submitBtn" type="submit" value="Valider"/>
+    </form>
+
+    <br/>
+    <br/>
+    <div th:if="${error != null && !error.isBlank()}">
+        Erreur : <span th:text="${error}"></span>
+    </div>
+
+</main>
+
+
+</body>
+</html>

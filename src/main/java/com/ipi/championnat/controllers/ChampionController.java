@@ -200,8 +200,22 @@ public class ChampionController {
 
 
         model.addAttribute("championat", championat);
-        model.addAttribute("dateMatchs", championat);
-        model.addAttribute()
+        model.addAttribute("matchGames", matchGames);
+        model.addAttribute("dateMatchs",distinctDateMatchs);
+
+        return "championtresultat";
+    }
+
+    @GetMapping(path = "championtclassement")
+    public String championtclassement(Model model, @RequestParam Long id) {
+
+        Championat championat = this.championatService.recupererChampionat(id);
+        List<MatchGame> matchGames = this.matchGameService.recupererMatchGame(championat);
+
+
+
+        model.addAttribute("championat", championat);
+        model.addAttribute("matchGames", matchGames) ;
 
         return "championtresultat";
     }
@@ -286,7 +300,10 @@ public class ChampionController {
     public String championAdd(Model model, @ModelAttribute Championat championat) {
 
         List<Pays> paysList = this.paysService.recupererPays();
+        List<Equipe> equipes = this.equipeService.recupererEquipes();
+
         model.addAttribute("paysList", paysList);
+        model.addAttribute("equipes", equipes);
 
         return "championadd";
     }
@@ -308,7 +325,9 @@ public class ChampionController {
         String nomFile = saveImage(file, "championat/");
         championat.setLogo(nomFile);
 
+
         this.championatService.ajouterChampionat(championat);
+
 
         return "redirect:/championatdetail?id=" + championat.getId();
     }
@@ -373,12 +392,28 @@ public class ChampionController {
         return "championatdetail";
     }
 
-    @PostMapping(path = "journeeadd")
-    public String journeeAdd(Model model, @RequestParam MatchGame matchGame) {
+    @GetMapping(path = "matchgameadd")
+    public String matchgameadd(Model model, @RequestParam long id,  @ModelAttribute MatchGame matchgame) {
+        Championat championat = championatService.recupererChampionat(id);
+       List<Equipe> equipes = equipeService.recupererEquipes();
+        List<Stade> stades = stadeService.recupererStade();
 
+        model.addAttribute("championat", championat);
+        model.addAttribute("equipes", equipes);
+        model.addAttribute("stades", stades);
+
+        return "matchgameadd";
+    }
+
+
+
+    @PostMapping(path = "matchgameadd")
+    public String journeeAdd(Model model, @RequestParam MatchGame matchGame, @RequestParam long id) {
+        Journee journee = matchGame.getJournee();
+        Championat championat = championatService.recupererChampionat(id);
+        journee.setChampionat(championat);
         journeeService.ajouterJournee(matchGame.getJournee());
         matchGameService.ajouterMatchGame(matchGame);
-
         return "championatdetail";
     }
 
@@ -490,6 +525,8 @@ public class ChampionController {
 
         return "equipedetail";
     }
+
+
 
 
 }

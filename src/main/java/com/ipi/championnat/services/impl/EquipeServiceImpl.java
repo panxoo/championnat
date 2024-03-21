@@ -21,4 +21,8 @@ public class EquipeServiceImpl implements EquipeService {
     public List<Equipe> recupererEquipes(){ return  equipeDao.findAll();}
     @Override
    public Equipe recupererEquipeByNom(String nom){return  equipeDao.findFirstByNom(nom);}
+    @Override
+    public List<Equipe> findAllById(List<Long> ids) {
+        return equipeDao.findAllById(ids);
+    }
 }

@@ -2,9 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport"
+    />
     <title>Title</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.0/css/flag-icons.min.css" rel="stylesheet">
 </head>
 <body>
+<div class="include__container" th:include="fragments/header :: header"></div>
+<main>
+
+    <img th:src="${ '/uploaded-images/' +  championat.logo}"  width="30px"> <h1 th:text="${championat.nom}"></h1>
+    <br/>
+    <br/>
+    <div th:each="datematch : ${dateMatchs}">
+        <h2 th:text="${#dates.format(datematch, 'yyyy-MM-dd')}"></h2>
+        <ul>
+            <div th:each="matchgame : ${matchGames}">
+            <li th:if="${datematch.equals(matchgame.dateMatchs)}">
+                <span th:text="${matchgame.equipe1.nom}"></span>
+                <img th:src="${ '/uploaded-images/' + matchgame.equipe1.logo}" width="30">
+                <span th:text="${matchgame.pointsEquipe1 + '-' + matchgame.pointsEquipe2}"></span>
+                <img th:src="${ '/uploaded-images/' + matchgame.equipe2.logo}" width="30">
+                <span th:text="${matchgame.equipe2.nom}"></span>
+            </li>
+            </div>
+        </ul>
+    <hr>
+    </div>
+    <br/><br/>
+
+</main>
 
 </body>
 </html>

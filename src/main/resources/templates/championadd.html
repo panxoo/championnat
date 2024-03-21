@@ -71,6 +71,16 @@
             <label>Logo *</label>
             <input accept="image/*" class="form-control-file" name="image" type="file">
         </div>
+
+        <div class="input__container">
+            <label  >Equipes Championat *</label>
+            <div th:each="equipe : ${equipes}">
+                <input type="checkbox" th:field="*{equipes}" th:value="${equipe.id}">
+                <label th:text="${equipe.nom}"></label>
+            </div>
+           <!-- <span class="error" data-th-errors="*{pays.nom}" data-th-if="${#fields.hasErrors('pays.nom')}"></span>-->
+        </div>
+
         <input class="submitBtn" type="submit" value="Valider"/>
     </form>
 
