@@ -63,7 +63,9 @@
                 <td th:text="${equipe.siteWeb}"></td>
             </tr>
         </table>
-        <button th:onclick="|window.location.href='/equipeupd?id=${equipe.id}'|">Modifier</button>
+        <button data-th-if="${session.user != null}" th:onclick="|window.location.href='/equipeupd?id=${equipe.id}'|">
+            Modifier
+        </button>
 
     </div>
 </main>

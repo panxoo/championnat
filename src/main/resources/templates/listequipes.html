@@ -42,7 +42,7 @@
     <br/>
     <br/>
     <br/>
-    <button th:onclick="|window.location.href='/equipeadd'|">
+    <button data-th-if="${session.user != null}" th:onclick="|window.location.href='/equipeadd'|">
         Ajouter Equipe
     </button>
 

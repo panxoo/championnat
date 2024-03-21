@@ -14,7 +14,7 @@
 <body>
 
 <div class="include__container" th:include="fragments/header :: header"></div>
-<main>
+<main data-th-if="${session.user != null}">
     <h1>Complétez ce formulaire pour ajouter un Championat</h1>
     <h4>Veuillez remplir le formulaire ci-dessous pour ajouter un nouveau championnat à notre base de données. Les
         champs marqués d'un astérisque (*) sont obligatoires.</h4>
@@ -73,12 +73,12 @@
         </div>
 
         <div class="input__container">
-            <label  >Equipes Championat *</label>
+            <label>Equipes Championat *</label>
             <div th:each="equipe : ${equipes}">
-                <input type="checkbox" th:field="*{equipes}" th:value="${equipe.id}">
+                <input th:field="*{equipes}" th:value="${equipe.id}" type="checkbox">
                 <label th:text="${equipe.nom}"></label>
             </div>
-           <!-- <span class="error" data-th-errors="*{pays.nom}" data-th-if="${#fields.hasErrors('pays.nom')}"></span>-->
+            <!-- <span class="error" data-th-errors="*{pays.nom}" data-th-if="${#fields.hasErrors('pays.nom')}"></span>-->
         </div>
 
         <input class="submitBtn" type="submit" value="Valider"/>

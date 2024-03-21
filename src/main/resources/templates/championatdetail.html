@@ -54,7 +54,9 @@
                     <td><p th:text="${championat.pointNul}"></p></td>
                 </tr>
             </table>
-            <button th:onclick="|window.location.href='/championupd?id=${championat.id}'|">Modifier</button>
+            <button data-th-if="${session.user != null}"
+                    th:onclick="|window.location.href='/championupd?id=${championat.id}'|">Modifier
+            </button>
         </div>
         <div class="championat__tablecontainer">
             <table class="championat__content">
@@ -94,13 +96,12 @@
                 </tbody>
             </table>
 
-            <button>Gérer les équipes</button>
+            <button data-th-if="${session.user != null}">Gérer les équipes</button>
         </div>
     </div>
-    <Br/>
     <br/>
     <br/>
-
+    <br/>
 
 
 </main>

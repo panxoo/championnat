@@ -49,7 +49,7 @@
     <br/>
     <br/>
     <br/>
-    <button th:onclick="|window.location.href='/championadd'|">
+    <button data-th-if="${session.user != null}" th:onclick="|window.location.href='/championadd'|">
         Ajouter Championat
     </button>
 </main>

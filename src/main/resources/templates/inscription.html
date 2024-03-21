@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Ajouter un admin</title>
     <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="include__container" th:include="fragments/header :: header"></div>
-<main>
-    <h1>Inscription</h1>
+<main data-th-if="${session.user != null}">
+    <h1>Ajouter un admin</h1>
 
     <form accept-charset="utf-8" action="#" data-th-action="@{/inscription}" data-th-object="${user}"
           method="post">
@@ -52,5 +52,6 @@
         Erreur : <span th:text="${error}"></span>
     </div>
 </main>
+<div class="include__container" th:include="fragments/footer :: footer"></div>
 </body>
 </html>
