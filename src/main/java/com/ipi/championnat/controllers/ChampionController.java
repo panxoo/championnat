@@ -603,9 +603,7 @@ public class ChampionController {
 
     @GetMapping(path = "equipedetail")
     public String equipeDetail(Model model, @RequestParam Long id) {
-        if (this.session.getAttribute("user") == null) {
-            return "redirect:/";
-        }
+        
         Equipe equipe = equipeService.recupererEquipe(id);
 
         model.addAttribute("equipe", equipe);
